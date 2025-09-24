@@ -18,11 +18,12 @@ export default function AdminLoginPage() {
 
     try {
       const data = await loginAdmin(userId, password);
-      alert("Login successful! Welcome, " + data.user_id);
-      // Redirect to the new admin dashboard page
-      router.push("/admin/dashboard");
+      // ✅ Save tokens already handled in loginAdmin
+
+      // Redirect to admin dashboard
+      router.push("/admin/dashboard"); // adjust if you have this page
     } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setError(err.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -36,7 +37,6 @@ export default function AdminLoginPage() {
         </h1>
 
         <form onSubmit={handleLogin} className="space-y-6">
-          {/* User ID */}
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
               User ID
@@ -50,7 +50,6 @@ export default function AdminLoginPage() {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Password
@@ -64,12 +63,10 @@ export default function AdminLoginPage() {
             />
           </div>
 
-          {/* Error */}
           {error && (
             <p className="text-red-600 text-sm text-center">{error}</p>
           )}
 
-          {/* Button */}
           <button
             type="submit"
             disabled={loading}
@@ -82,4 +79,3 @@ export default function AdminLoginPage() {
     </main>
   );
 }
-

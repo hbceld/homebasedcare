@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchAppointments } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 type Appointment = {
   id: number;
@@ -21,25 +22,38 @@ export default function AdminAppointmentsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const loadAppointments = async () => {
       try {
-        const data = await fetchAppointments();
+        const data = await fetchAppointments(); // authFetch handles refresh automatically
         setAppointments(data);
       } catch (err: any) {
-        setError(err.message || "Failed to fetch appointments");
+        // Only redirect if unauthorized
+        if (
+          err.message.includes("401") ||
+          err.message.includes("Unauthorized")
+        ) {
+          sessionStorage.removeItem("access");
+          sessionStorage.removeItem("refresh");
+          router.push("/login/admin"); // redirect to your login page
+        } else {
+          setError(err.message || "Failed to fetch appointments");
+        }
       } finally {
         setLoading(false);
       }
     };
+
     loadAppointments();
-  }, []);
+  }, [router]);
 
   const filteredAppointments = appointments.filter(
     (a) =>
       a.patient_name.toLowerCase().includes(search.toLowerCase()) ||
-      (a.nurse_name && a.nurse_name.toLowerCase().includes(search.toLowerCase())) ||
+      (a.nurse_name &&
+        a.nurse_name.toLowerCase().includes(search.toLowerCase())) ||
       a.status.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -59,12 +73,24 @@ export default function AdminAppointmentsPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-sky-100">
             <tr>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Patient</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nurse</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Date & Time</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Purpose</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Priority</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                Patient
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                Nurse
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                Date & Time
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                Purpose
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                Priority
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                Status
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -89,13 +115,20 @@ export default function AdminAppointmentsPage() {
             ) : (
               filteredAppointments.map((a) => (
                 <tr key={a.id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-3 text-sm font-medium text-gray-700">{a.patient_name}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{a.nurse_name || "Unassigned"}</td>
+                  <td className="px-4 py-3 text-sm font-medium text-gray-700">
+                    {a.patient_name}
+                  </td>
                   <td className="px-4 py-3 text-sm text-gray-600">
-                    {a.date_of_appointment} | {a.start_time} - {a.end_time || "N/A"}
+                    {a.nurse_name || "Unassigned"}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {a.date_of_appointment} | {a.start_time} -{" "}
+                    {a.end_time || "N/A"}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-600">{a.purpose}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{a.priority_level}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {a.priority_level}
+                  </td>
                   <td className="px-4 py-3">
                     <span
                       className={`px-2 py-1 text-xs font-semibold rounded ${
@@ -118,5 +151,3 @@ export default function AdminAppointmentsPage() {
     </main>
   );
 }
-
-
