@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { createNurse } from "@/lib/api"; // <-- added import
 
 export default function CreateNursePage() {
   const router = useRouter();
@@ -25,18 +26,14 @@ export default function CreateNursePage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // <-- updated handleSubmit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const res = await fetch("/api/nurses/create/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("Failed to create nurse");
+      await createNurse(form); // call backend via lib/api.ts
       router.push("/admin/nurses");
     } catch (err: any) {
       setError(err.message || "Something went wrong");
@@ -45,34 +42,66 @@ export default function CreateNursePage() {
     }
   };
 
+  const inputs = [
+    { name: "user_id", label: "User ID", type: "text" },
+    { name: "full_name", label: "Full Name", type: "text" },
+    { name: "password", label: "Password", type: "password" },
+    { name: "age", label: "Age", type: "number" },
+    { name: "qualification", label: "Qualification", type: "text" },
+    { name: "license_number", label: "License Number", type: "text" },
+    { name: "telephone", label: "Telephone", type: "text" },
+    { name: "email", label: "Email", type: "email" },
+    { name: "speciality", label: "Speciality", type: "text" },
+    { name: "years_of_experience", label: "Years of Experience", type: "number" },
+  ];
+
   return (
-    <main className="p-6 min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold text-sky-700 mb-6">Add Nurse</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded-md space-y-4">
-        {error && <p className="text-red-600">{error}</p>}
+    <main className="min-h-screen bg-gray-50 p-4 flex justify-center pt-10">
+      <div className="w-full max-w-md">
+        <h1 className="text-2xl font-bold text-sky-700 mb-6 text-center">Add Nurse</h1>
 
-        <input name="user_id" placeholder="User ID" value={form.user_id} onChange={handleChange} required className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="full_name" placeholder="Full Name" value={form.full_name} onChange={handleChange} required className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="age" type="number" placeholder="Age" value={form.age} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="qualification" placeholder="Qualification" value={form.qualification} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="license_number" placeholder="License Number" value={form.license_number} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        
-        <select name="gender" value={form.gender} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
+        {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
 
-        <input name="telephone" placeholder="Telephone" value={form.telephone} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="speciality" placeholder="Speciality" value={form.speciality} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
-        <input name="years_of_experience" type="number" placeholder="Years of Experience" value={form.years_of_experience} onChange={handleChange} className="w-full border-b py-2 px-1 focus:outline-none focus:border-sky-500"/>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {inputs.map((input) => (
+            <div key={input.name} className="relative">
+              {/* Label always above input */}
+              <label className="absolute left-1 -top-4 text-gray-500 text-sm">{input.label}</label>
+              <input
+                name={input.name}
+                type={input.type}
+                value={(form as any)[input.name]}
+                onChange={handleChange}
+                required
+                className="w-full border-b-2 border-gray-300 bg-transparent pt-6 pb-2 px-1 text-gray-900 focus:border-sky-500 focus:outline-none sm:text-sm"
+              />
+            </div>
+          ))}
 
-        <button type="submit" disabled={loading} className="bg-sky-600 text-white px-4 py-2 rounded-md">
-          {loading ? "Adding..." : "Add Nurse"}
-        </button>
-      </form>
+          {/* Gender select */}
+          <div className="relative">
+            <label className="absolute left-1 -top-4 text-gray-500 text-sm">Gender</label>
+            <select
+              name="gender"
+              value={form.gender}
+              onChange={handleChange}
+              className="w-full border-b-2 border-gray-300 bg-transparent pt-6 pb-2 px-1 text-gray-900 focus:border-sky-500 focus:outline-none sm:text-sm"
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-sky-600 hover:bg-sky-700 text-white py-2 rounded-lg font-semibold transition"
+          >
+            {loading ? "Adding..." : "Add Nurse"}
+          </button>
+        </form>
+      </div>
     </main>
   );
 }
