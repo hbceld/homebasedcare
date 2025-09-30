@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 
+type AssignedNurseShape = { id: number; full_name?: string | null; _needsFetch?: boolean };
+
 interface Patient {
   user_id: string;
   full_name: string;
   age?: number | null;
   gender?: string | null;
   contact?: string | null;
-  caregiver?: string | null;
+  caregiver_contact?: string | null;
   illness_type?: string | null;
   duration?: string | null;
   severity_level?: string | null;
@@ -16,7 +18,7 @@ interface Patient {
   location?: string | null;
   time_of_care?: string | null;
   rotations?: string | null;
-  assigned_nurse?: { id: number; full_name: string } | null;
+  assigned_nurse?: number | AssignedNurseShape | null;
 }
 
 interface User {
@@ -35,7 +37,7 @@ interface NurseReport {
   vitals_recorded: string;
   recommendations: string;
   created_at: string;
-  nurse?: { id: number; full_name: string };
+  nurse?: { id: number; full_name: string } | null;
 }
 
 const API_BASE = (process.env.NEXT_PUBLIC_LOCAL_API_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
@@ -56,7 +58,7 @@ async function getPatientData(userId: number) {
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    if (err.detail?.toLowerCase().includes("token")) {
+    if (err.detail?.toLowerCase?.().includes("token")) {
       alert("⚠️ Session expired. Please log in again.");
       sessionStorage.removeItem("access");
       sessionStorage.removeItem("user");
@@ -82,6 +84,29 @@ async function getPatientReports() {
   return res.json();
 }
 
+/** Try to fetch nurse details when only an ID was returned */
+async function fetchNurseById(id: number) {
+  const token = sessionStorage.getItem("access");
+  if (!token) return null;
+  try {
+    const res = await fetch(`${API_BASE}/nurses/${id}/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    // Nurse endpoints might return { id, user: { full_name } } or { id, full_name }
+    if (data?.user?.full_name) return String(data.user.full_name);
+    if (data?.full_name) return String(data.full_name);
+    return null;
+  } catch (e) {
+    console.warn("Failed to fetch nurse details:", e);
+    return null;
+  }
+}
+
 export default function PatientDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -100,13 +125,46 @@ export default function PatientDashboard() {
 
     const loadData = async () => {
       try {
-        const data = await getPatientData(parsedUser.id);
-        setPatient(data);
+        const raw = await getPatientData(parsedUser.id);
+        console.log("RAW patient data from API:", raw);
+
+        // Normalize assigned_nurse into consistent object shape
+        const normalized: Patient | null = raw
+          ? {
+              ...raw,
+              assigned_nurse: (() => {
+                const an = raw.assigned_nurse;
+                if (!an) return null;
+                if (typeof an === "number") return { id: an, full_name: undefined, _needsFetch: true } as AssignedNurseShape;
+                if (typeof an === "object") {
+                  return { id: Number(an.id), full_name: an.full_name ?? null } as AssignedNurseShape;
+                }
+                return null;
+              })(),
+            }
+          : null;
+
+        console.log("NORMALIZED patient data:", normalized);
+        setPatient(normalized);
+
+        // If assigned_nurse was a number (we marked _needsFetch), try to fetch name
+        if (normalized?.assigned_nurse && (normalized.assigned_nurse as AssignedNurseShape)._needsFetch) {
+          const nid = (normalized.assigned_nurse as AssignedNurseShape).id;
+          const name = await fetchNurseById(nid);
+          if (name) {
+            setPatient((prev) => (prev ? { ...prev, assigned_nurse: { id: nid, full_name: name } } : prev));
+            console.log("Fetched nurse name for ID", nid, "->", name);
+          } else {
+            // keep nurse id but no name
+            setPatient((prev) => (prev ? { ...prev, assigned_nurse: { id: nid, full_name: null } } : prev));
+          }
+        }
 
         const reportData = await getPatientReports();
         setReports(reportData);
       } catch (err: any) {
-        alert("Failed to fetch your data: " + err.message);
+        console.error("Error loading patient data:", err);
+        alert("Failed to fetch your data: " + (err?.message || err));
       } finally {
         setLoading(false);
       }
@@ -114,6 +172,16 @@ export default function PatientDashboard() {
 
     loadData();
   }, []);
+
+  // compute the label once and always in scope (before any JSX usage)
+  const assignedNurseDisplay = (() => {
+    if (!patient?.assigned_nurse) return "Not assigned";
+    if (typeof patient.assigned_nurse === "number") return `Nurse #${patient.assigned_nurse}`;
+    const asObj = patient.assigned_nurse as AssignedNurseShape;
+    if (asObj.full_name && String(asObj.full_name).trim().length > 0) return String(asObj.full_name);
+    if (asObj.id) return `Nurse #${asObj.id}`;
+    return "Not assigned";
+  })();
 
   if (loading) return <p style={{ fontFamily: "Playfair Display, serif" }}>Loading your data...</p>;
   if (!patient || !user) return <p style={{ fontFamily: "Playfair Display, serif" }}>Unable to load patient data.</p>;
@@ -170,7 +238,7 @@ export default function PatientDashboard() {
           <p><strong>Age:</strong> {patient.age ?? "N/A"}</p>
           <p><strong>Gender:</strong> {patient.gender ?? "N/A"}</p>
           <p><strong>Contact:</strong> {patient.contact ?? "N/A"}</p>
-          <p><strong>Caregiver:</strong> {patient.caregiver ?? "N/A"}</p>
+          <p><strong>Caregiver:</strong> {patient.caregiver_contact ?? "N/A"}</p>
           <p><strong>Illness:</strong> {patient.illness_type ?? "N/A"}</p>
           <p><strong>Duration:</strong> {patient.duration ?? "N/A"}</p>
           <p><strong>Severity:</strong> {patient.severity_level ?? "N/A"}</p>
@@ -179,7 +247,7 @@ export default function PatientDashboard() {
           <p><strong>Location:</strong> {patient.location ?? "N/A"}</p>
           <p><strong>Time of Care:</strong> {patient.time_of_care ?? "N/A"}</p>
           <p><strong>Rotations:</strong> {patient.rotations ?? "N/A"}</p>
-          <p><strong>Assigned Nurse:</strong> {patient.assigned_nurse-name ?? "Not assigned"}</p>
+          <p><strong>Assigned Nurse:</strong> {assignedNurseDisplay}</p>
         </div>
       </div>
 

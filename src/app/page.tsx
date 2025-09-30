@@ -1,5 +1,5 @@
 // src/app/page.tsx
-import type { Metadata } from "next";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,11 +13,7 @@ import {
   Twitter,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Home-Based Care in Eldoret Town, Uasin Gishu – Dial-a-Nurse Kenya",
-  description:
-    "Book trusted home-based care in Eldoret town, Uasin Gishu County. Our nurses provide skilled nursing, personal care, rehabilitation, and elderly care directly at your home.",
-};
+
 
 export default function HomePage() {
   return (
