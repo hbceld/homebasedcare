@@ -179,17 +179,17 @@ export default function HomePage() {
               {
                 title: "Skilled Nursing",
                 desc: "Medication, wound care, injections, and vital monitoring.",
-                img: "/images/service-nursing.jpg",
+                img: "/images/care3.jpeg",
               },
               {
                 title: "Elderly & Personal Care",
                 desc: "Support with bathing, feeding, mobility, and daily routines.",
-                img: "/images/service-elderly.jpg",
+                img: "/images/eld.jpeg",
               },
               {
                 title: "Rehabilitation Therapy",
                 desc: "Physiotherapy, occupational therapy, and recovery programs.",
-                img: "/images/service-therapy.jpg",
+                img: "/images/this.jpeg",
               },
             ].map((s, i) => (
               <article
