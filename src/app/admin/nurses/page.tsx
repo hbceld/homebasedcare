@@ -65,10 +65,10 @@ export default function NursesPage() {
       {/* Search */}
       <input
         type="text"
-        placeholder="Search by name, ID, license, email, phone, speciality..."
+        placeholder="Search by name, ID, license, email, phone, speciality"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 md:mb-6 w-full md:w-1/2 border-b border-gray-300 px-2 py-2 focus:outline-none focus:border-sky-500 transition"
+        className="mb-4 md:mb-6 w-full md:w-1/2 border-b border-gray-900 px-2 py-2 focus:outline-none focus:border-sky-500 transition text-black"
       />
 
       {/* Loading / Error / Empty */}
@@ -81,68 +81,75 @@ export default function NursesPage() {
       ) : (
         <>
           {/* Mobile view: Cards */}
-          <div className="grid gap-4 md:hidden">
-            {filtered.map((n) => (
-              <div
-                key={n.id}
-                className="bg-white shadow rounded-md p-4 flex flex-col gap-2"
-              >
-                <div className="flex justify-between items-center">
-                  <h2 className="font-semibold text-gray-800">{n.full_name}</h2>
-                  <span className="text-xs bg-sky-100 text-sky-700 px-2 py-1 rounded">
-                    {n.speciality}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">User ID:</span> {n.user_id}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Age:</span> {n.age}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Qualification:</span> {n.qualification}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">License:</span> {n.license_number}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Phone:</span> {n.telephone}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Email:</span> {n.email}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Experience:</span>{" "}
-                  {n.years_of_experience} yrs
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Gender:</span> {n.gender}
-                </p>
-                <div className="flex gap-2 mt-3">
-                  <Link
-                    href={`/admin/nurses/edit/${n.id}`}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    onClick={async () => {
-                      if (!confirm("Delete this nurse?")) return;
-                      try {
-                        await deleteNurse(n.id);
-                        setNurses((prev) => prev.filter((x) => x.id !== n.id));
-                      } catch (err: any) {
-                        alert(err.message || "Failed to delete nurse");
-                      }
-                    }}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Mobile view: Cards */}
+<div className="grid gap-4 md:hidden">
+  {filtered.map((n) => (
+    <div
+      key={n.id}
+      className="bg-white shadow-lg rounded-xl p-5 flex flex-col gap-3 hover:shadow-2xl transition-shadow duration-300 text-black"
+    >
+      <div className="flex justify-between items-center">
+        <h2 className="font-semibold text-gray-800 text-base sm:text-lg">
+          {n.full_name}
+        </h2>
+        <span className="text-xs sm:text-sm font-medium bg-sky-100 text-sky-700 px-3 py-1 rounded-full">
+          {n.speciality}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+        <p>
+          <span className="font-medium">User ID:</span> {n.user_id}
+        </p>
+        <p>
+          <span className="font-medium">Age:</span> {n.age}
+        </p>
+        <p>
+          <span className="font-medium">Qualification:</span> {n.qualification}
+        </p>
+        <p>
+          <span className="font-medium">License:</span> {n.license_number}
+        </p>
+        <p>
+          <span className="font-medium">Phone:</span> {n.telephone}
+        </p>
+        <p>
+          <span className="font-medium">Email:</span> {n.email}
+        </p>
+        <p>
+          <span className="font-medium">Experience:</span> {n.years_of_experience} yrs
+        </p>
+        <p>
+          <span className="font-medium">Gender:</span> {n.gender}
+        </p>
+      </div>
+
+      <div className="flex gap-3 mt-4">
+        <Link
+          href={`/admin/nurses/edit/${n.id}`}
+          className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg text-xs sm:text-sm text-center transition-colors"
+        >
+          Edit
+        </Link>
+        <button
+          onClick={async () => {
+            if (!confirm("Delete this nurse?")) return;
+            try {
+              await deleteNurse(n.id);
+              setNurses((prev) => prev.filter((x) => x.id !== n.id));
+            } catch (err: any) {
+              alert(err.message || "Failed to delete nurse");
+            }
+          }}
+          className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-xs sm:text-sm text-center transition-colors"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
 
           {/* Desktop view: Table */}
           <div className="hidden md:block overflow-x-auto bg-white shadow rounded-md">
