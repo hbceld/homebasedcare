@@ -132,7 +132,7 @@ export async function fetchNurses() {
 }
 
 export async function deleteNurse(id: number) {
-  const res = await authFetch(`${API_BASE}/nurses/delete/${id}/`, {
+  const res = await authFetch(`${API_BASE}/nurses/${id}/`, {
     method: "DELETE",
   });
 
@@ -143,6 +143,7 @@ export async function deleteNurse(id: number) {
 
   return true;
 }
+
 
 
 // --- NURSES ---
