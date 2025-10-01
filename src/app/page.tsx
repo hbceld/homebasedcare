@@ -2,6 +2,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { MdVerifiedUser } from "react-icons/md";
 import Link from "next/link";
 import {
   Phone,
@@ -271,11 +272,42 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-sky-700 text-white py-6 text-center">
-        <div className="max-w-7xl mx-auto px-4">
-          <p>© {new Date().getFullYear()} Dial-a-Nurse Kenya. All rights reserved.</p>
-        </div>
-      </footer>
+      <footer className="bg-sky-700 text-white py-8">
+  <div className="max-w-7xl mx-auto px-4 flex flex-col items-center space-y-3">
+
+    {/* Verification / Trust */}
+    <div className="flex items-center gap-2 text-sm sm:text-base font-medium">
+      <MdVerifiedUser className="text-yellow-400 text-2xl sm:text-3xl animate-pulse" />
+      <span>All our staff are licensed by the NCK</span>
+    </div>
+
+    {/* Divider between NCK and Humphries */}
+    <div className="w-24 h-[1px] bg-white/50 my-2"></div>
+
+    {/* Humphries Dev Studio logo + text horizontally aligned */}
+    <div className="flex items-center gap-2 text-sm sm:text-base font-medium">
+      <Image
+        src="/images/logo.jpeg"
+        alt="Humphries Dev Studio Logo"
+        width={28}
+        height={28}
+        className="object-contain"
+      />
+      <span>Developed by Humphries Dev Studio</span>
+    </div>
+
+    {/* Divider before copyright */}
+    <div className="w-24 h-[1px] bg-white/50 my-2"></div>
+
+    {/* Copyright */}
+    <p className="text-xs sm:text-sm text-white/90">
+      © {new Date().getFullYear()} Dial-a-Nurse Kenya. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+
+
     </main>
   );
 }
