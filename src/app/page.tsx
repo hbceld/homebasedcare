@@ -300,7 +300,7 @@ export default function HomePage() {
     <div className="w-24 h-[1px] bg-white/50 my-2"></div>
 
     {/* Copyright */}
-    <p className="text-xs sm:text-sm text-white/90">
+    <p className="text-xs sm:text-sm text-green-300">
       © {new Date().getFullYear()} Dial-a-Nurse Kenya. All rights reserved.
     </p>
   </div>
