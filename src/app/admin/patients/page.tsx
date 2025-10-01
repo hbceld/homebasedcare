@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { User, Phone, Stethoscope, MapPin, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { fetchPatients, deletePatient, fetchNurses } from "@/lib/api";
 
@@ -53,11 +54,19 @@ export default function PatientsPage() {
     load();
   }, []);
 
-  const getNurseName = (id?: number | null) => {
-    if (!id) return "-";
-    const nurse = nurses.find((n) => n.id === id);
+  const getNurseName = (assigned_nurse?: number | { id: number; full_name: string } | null) => {
+    if (!assigned_nurse) return "-";
+  
+    // If backend sends full object
+    if (typeof assigned_nurse === "object") {
+      return assigned_nurse.full_name || "-";
+    }
+  
+    // If backend sends just an ID
+    const nurse = nurses.find((n) => n.id === assigned_nurse);
     return nurse ? nurse.full_name : "-";
   };
+  
 
   const filtered = patients.filter((p) => {
     const q = search.trim().toLowerCase();
@@ -187,91 +196,103 @@ export default function PatientsPage() {
 
       {/* Card view (mobile) */}
       <div className="grid gap-4 md:hidden">
-        {loading ? (
-          <p className="text-center text-gray-500">Loading patients...</p>
-        ) : error ? (
-          <p className="text-center text-red-600">{error}</p>
-        ) : filtered.length === 0 ? (
-          <p className="text-center text-gray-500">No patients found.</p>
-        ) : (
-          filtered.map((p) => (
-            <div
-              key={p.id}
-              className="bg-white shadow rounded-md p-4 space-y-2 text-sm text-black"
+  {loading ? (
+    <p className="text-center text-gray-500">Loading patients...</p>
+  ) : error ? (
+    <p className="text-center text-red-600">{error}</p>
+  ) : filtered.length === 0 ? (
+    <p className="text-center text-gray-500">No patients found.</p>
+  ) : (
+    filtered.map((p) => (
+      <div
+        key={p.id}
+        className="bg-white shadow-md rounded-xl p-4 space-y-3 text-sm text-gray-800 border border-gray-100 hover:shadow-lg transition"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-sky-700 flex items-center gap-2">
+            <User className="w-4 h-4" />
+            {p.full_name}
+          </h2>
+          <span className="text-xs bg-sky-100 text-sky-700 px-2 py-1 rounded-md font-medium">
+            ID: {p.patient_id}
+          </span>
+        </div>
+
+        {/* Grid info */}
+        <div className="grid grid-cols-2 gap-3">
+          <p>
+            <span className="font-medium">Age:</span> {p.age ?? "-"}
+          </p>
+          <p>
+            <span className="font-medium">Gender:</span> {p.gender ?? "-"}
+          </p>
+          <p className="flex items-center gap-1">
+            <Phone className="w-4 h-4 text-gray-500" />
+            {p.contact ?? "-"}
+          </p>
+          <p className="flex items-center gap-1">
+            <Phone className="w-4 h-4 text-gray-500" />
+            {p.caregiver_contact ?? "-"}
+          </p>
+          <p className="flex items-center gap-1">
+            <Stethoscope className="w-4 h-4 text-gray-500" />
+            {p.illness_type ?? "-"}
+          </p>
+          <p>
+            <span className="font-medium">Duration:</span> {p.duration ?? "-"}
+          </p>
+          <p className="flex items-center gap-1">
+            <AlertTriangle className="w-4 h-4 text-red-500" />
+            <span
+              className={`px-2 py-0.5 rounded-md text-xs ${
+                p.severity_level === "severe"
+                  ? "bg-red-100 text-red-700"
+                  : p.severity_level === "moderate"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-green-100 text-green-700"
+              }`}
             >
-              <p>
-                <span className="font-semibold">Patient ID:</span> {p.patient_id}
-              </p>
-              <p>
-                <span className="font-semibold">Name:</span> {p.full_name}
-              </p>
-              <p>
-                <span className="font-semibold">Age:</span> {p.age ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Gender:</span> {p.gender ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Contact:</span> {p.contact ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Caregiver:</span>{" "}
-                {p.caregiver_contact ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Illness:</span>{" "}
-                {p.illness_type ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Duration:</span>{" "}
-                {p.duration ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Severity:</span>{" "}
-                {p.severity_level ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Care Needed:</span>{" "}
-                {p.care_needed ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Speciality:</span>{" "}
-                {p.speciality_required ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Location:</span>{" "}
-                {p.location ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Time of Care:</span>{" "}
-                {p.time_of_care ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Rotations:</span>{" "}
-                {p.rotations ?? "-"}
-              </p>
-              <p>
-                <span className="font-semibold">Assigned Nurse:</span>{" "}
-                {getNurseName(p.assigned_nurse)}
-              </p>
-              <div className="flex space-x-2 pt-2">
-                <Link
-                  href={`/admin/patients/edit/${p.id}`}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded text-xs"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(p.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+              {p.severity_level ?? "-"}
+            </span>
+          </p>
+          <p>
+            <span className="font-medium">Care:</span> {p.care_needed ?? "-"}
+          </p>
+          <p>
+            <span className="font-medium">Speciality:</span>{" "}
+            {p.speciality_required ?? "-"}
+          </p>
+          <p className="flex items-center gap-1">
+            <MapPin className="w-4 h-4 text-gray-500" />
+            {p.location ?? "-"}
+          </p>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+          <span className="text-xs text-gray-500">
+            Nurse: {getNurseName(p.assigned_nurse)}
+          </span>
+          <div className="flex space-x-2">
+            <Link
+              href={`/admin/patients/edit/${p.id}`}
+              className="bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-1 rounded-md text-xs font-medium"
+            >
+              Edit
+            </Link>
+            <button
+              onClick={() => handleDelete(p.id)}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs font-medium"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
+    ))
+  )}
+</div>
     </main>
   );
 }
