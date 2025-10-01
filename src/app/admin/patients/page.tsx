@@ -102,7 +102,7 @@ export default function PatientsPage() {
             placeholder="Search patients..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border rounded px-3 py-1 text-sm md:text-base"
+            className="border rounded px-3 py-1 text-sm md:text-base text-black"
           />
           <Link
             href="/admin/patients/create"
