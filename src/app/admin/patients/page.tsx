@@ -174,12 +174,7 @@ export default function PatientsPage() {
                   <td className="px-3 py-2">{p.rotations ?? "-"}</td>
                   <td className="px-3 py-2">{getNurseName(p.assigned_nurse)}</td>
                   <td className="px-3 py-2 space-x-2">
-                    <Link
-                      href={`/admin/patients/edit/${p.id}`}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded text-xs"
-                    >
-                      Edit
-                    </Link>
+                    
                     <button
                       onClick={() => handleDelete(p.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
