@@ -1,6 +1,7 @@
 // src/app/page.tsx
-
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   Phone,
@@ -12,6 +13,13 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+
+const features = [
+  { title: "Compassionate Team", desc: "Experienced nurses dedicated to patient-centered care." },
+  { title: "Tailored Plans", desc: "Care designed around your needs, schedule and budget." },
+  { title: "Local & Reliable", desc: "We operate from Eldoret and know the community well." },
+  { title: "Transparent Pricing", desc: "Affordable home-based care with no hidden fees." },
+];
 
 
 
@@ -97,7 +105,7 @@ export default function HomePage() {
                 <Link href="#services" className="px-2 py-0.5 hover:text-sky-600">Services</Link>
                 <Link href="#why" className="px-2 py-0.5 hover:text-sky-600">Why Us</Link>
                 <Link href="/blog" className="px-2 py-0.5 hover:text-sky-600">Blogs</Link>
-                <Link href="#contact" className="px-2 py-0.5 hover:text-sky-600">Contact Us</Link>
+                <Link href="#appointment" className="px-2 py-0.5 hover:text-sky-600">Contact Us</Link>
               </div>
             </nav>
           </div>
@@ -225,33 +233,22 @@ export default function HomePage() {
           </h2>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {[
-              {
-                title: "Compassionate Team",
-                desc: "Experienced nurses dedicated to patient-centered care.",
-              },
-              {
-                title: "Tailored Plans",
-                desc: "Care designed around your needs, schedule and budget.",
-              },
-              {
-                title: "Local & Reliable",
-                desc: "We operate from Eldoret and know the community well.",
-              },
-              {
-                title: "Transparent Pricing",
-                desc: "Affordable home-based care with no hidden fees.",
-              },
-            ].map((w, i) => (
-              <div
-                key={i}
-                className="p-4 bg-gray-50 rounded-xl shadow-sm text-left"
-              >
-                <h3 className="text-lg font-semibold text-sky-700">{w.title}</h3>
-                <p className="mt-2 text-gray-600 text-sm">{w.desc}</p>
-              </div>
-            ))}
-          </div>
+  {features.map((w, i) => (
+    <motion.div
+      key={i}
+      className="p-6 bg-gray-50 rounded-2xl shadow-lg text-left"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.9 }}
+      whileHover={{ scale: 1.05, rotate: 1 }}
+    >
+      <h3 className="text-lg font-semibold text-sky-700">{w.title}</h3>
+      <p className="mt-2 text-gray-600 text-sm">{w.desc}</p>
+    </motion.div>
+  ))}
+</div>
+
         </div>
       </section>
 
