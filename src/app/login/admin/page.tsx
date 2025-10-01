@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
               required
-              className="w-full border-b border-gray-300 bg-transparent px-1 py-2 text-sm focus:outline-none focus:border-sky-500"
+              className="w-full border-b border-gray-300 bg-transparent px-1 py-2 text-sm focus:outline-none focus:border-sky-500 text-black"
             />
           </div>
 
@@ -59,7 +59,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full border-b border-gray-300 bg-transparent px-1 py-2 text-sm focus:outline-none focus:border-sky-500"
+              className="w-full border-b border-gray-300 bg-transparent px-1 py-2 text-sm focus:outline-none focus:border-sky-500 text-black"
             />
           </div>
 
