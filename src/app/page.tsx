@@ -1,7 +1,8 @@
 // src/app/page.tsx
 "use client";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence} from "framer-motion";
+import { useState } from "react";
 import { MdVerifiedUser } from "react-icons/md";
 import Link from "next/link";
 import {
@@ -25,6 +26,24 @@ const features = [
 
 
 export default function HomePage() {
+  const [active, setActive] = useState<"mission" | "values" | "philosophy">("mission");
+
+  const content = {
+    mission: {
+      title: "Our Mission",
+      text: `Eldoret Home-Based Care has a special purpose to help people enjoy a safe home life filled with comfort, independence, and dignity. Our goal at Eldoret Home-Based Care is to provide the highest quality home health care services in Eldoret.
+
+We believe our clients and their families deserve care delivered the best home-care way, with compassion, excellence, and reliability.`
+    },
+    values: {
+      title: "Our Values",
+      text: `At Eldoret Home-Based Care, we believe the well-being of our clients is our highest priority. Every person deserves to live a life of comfort, independence, and dignity within their own home. Our timeless values of compassion, excellence, and reliability guide the care we provide to families in Eldoret and across Uasin Gishu. By staying true to these values, we ensure that children, adults, and seniors receive professional and culturally sensitive support tailored to their unique needs. With our trusted home care services in Eldoret, we make it possible for people of all ages to experience their best quality of life, wherever they call home.`
+    },
+    philosophy: {
+      title: "Our Philosophy",
+      text: `At Eldoret Home-Based Care, we believe our clients always come first, and their well-being is at the heart of everything we do. We recognize that our caregivers and employees are our greatest asset, and we are committed to supporting them as they provide compassionate, professional care. Building strong relationships and working together with families and the community is essential to our success as trusted providers of home health care in Eldoret. We uphold honesty and integrity in all our services, ensuring families can rely on us with confidence. Beyond delivering care, we are dedicated to giving back through community service where we live and work. We also believe in maintaining a strong financial foundation to support our growth, so that more families in Eldoret and beyond can access quality, reliable, and affordable home-based care.`
+    }
+  };
   return (
     <main className="flex flex-col min-h-screen bg-white text-gray-800">
       {/* Top info (small) */}
@@ -105,6 +124,7 @@ export default function HomePage() {
                 <Link href="#about" className="px-2 py-0.5 hover:text-sky-600">About Us</Link>
                 <Link href="#services" className="px-2 py-0.5 hover:text-sky-600">Services</Link>
                 <Link href="#why" className="px-2 py-0.5 hover:text-sky-600">Why Us</Link>
+                <Link href="#pricing" className="px-2 py-0.5 hover:text-sky-600">Pricing</Link>
                 <Link href="/blog" className="px-2 py-0.5 hover:text-sky-600">Blogs</Link>
                 <Link href="#appointment" className="px-2 py-0.5 hover:text-sky-600">Contact Us</Link>
               </div>
@@ -225,33 +245,245 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* Why Us */}
-      <section id="why" className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-sky-700">
-            Why families in Eldoret trust us
-          </h2>
 
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-  {features.map((w, i) => (
-    <motion.div
-      key={i}
-      className="p-6 bg-gray-50 rounded-2xl shadow-lg text-left"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ type: "spring", stiffness: 100, damping: 12, delay: i * 0.9 }}
-      whileHover={{ scale: 1.05, rotate: 1 }}
-    >
-      <h3 className="text-lg font-semibold text-sky-700">{w.title}</h3>
-      <p className="mt-2 text-gray-600 text-sm">{w.desc}</p>
-    </motion.div>
-  ))}
+<section id="why" className="py-16 bg-gradient-to-b from-sky-50 to-white">
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-3xl md:text-4xl font-extrabold text-sky-700">
+      Why Families in Eldoret Trust Us
+    </h2>
+    <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+      At <span className="font-semibold text-sky-700">Eldoret Home-Based Care</span>, 
+      we deliver compassionate, professional, and culturally sensitive care 
+      for adults, seniors, and children across Uasin Gishu. Every service we offer 
+      is designed to bring comfort, dignity, and peace of mind to your family.
+    </p>
+
+    <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      {[
+        {
+          title: "Personal Care & Companionship",
+          desc: "Gentle assistance with grooming, meals, mobility, and daily living—offered with kindness and respect.",
+          icon: "🤝"
+        },
+        {
+          title: "Home Health Care",
+          desc: "Rehabilitative and therapeutic support after illness, injury, or hospital stay—all from the comfort of home.",
+          icon: "🏡"
+        },
+        {
+          title: "Private Duty Nursing",
+          desc: "Dedicated nursing care for adults and seniors living with chronic illnesses, disabilities, or recovery needs.",
+          icon: "🩺"
+        },
+        {
+          title: "Pediatric Nursing",
+          desc: "Loving, skilled care for children under 18—our nurses are available day or night, whenever needed.",
+          icon: "👶"
+        },
+        {
+          title: "End-of-Life Care",
+          desc: "Hospice care that focuses on comfort, dignity, and peace—supporting both patients and families.",
+          icon: "🌷"
+        },
+        {
+          title: "Disability & Autism Support",
+          desc: "Habilitation and ABA therapies to help children and adults with developmental needs thrive independently.",
+          icon: "🌟"
+        },
+      ].map((w, i) => (
+        <motion.div
+          key={i}
+          className="p-8 bg-white rounded-2xl shadow-md border border-gray-100 text-left hover:shadow-2xl hover:border-sky-200 transition-all duration-300"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 80, damping: 15, delay: i * 0.15 }}
+          whileHover={{ scale: 1.03 }}
+        >
+          <div className="text-4xl mb-4">{w.icon}</div>
+          <h3 className="text-xl font-semibold text-sky-700">{w.title}</h3>
+          <p className="mt-3 text-gray-600 leading-relaxed text-sm">{w.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+     {/* Mission, Values & Philosophy - Clean Horizontal Tabs */}
+<div className="mt-16 max-w-5xl mx-auto">
+  {/* Horizontal tab buttons */}
+  <div className="flex justify-center gap-10 border-b border-gray-200">
+    {(["mission", "values", "philosophy"] as const).map((key) => (
+      <button
+        key={key}
+        onClick={() => setActive(key)}
+        className={`pb-2 text-lg font-medium transition-colors ${
+          active === key
+            ? "text-sky-700 border-b-2 border-sky-700"
+            : "text-gray-600 hover:text-sky-600"
+        }`}
+      >
+        {content[key].title}
+      </button>
+    ))}
+  </div>
+
+  {/* Active content */}
+  <div className="mt-6 text-center">
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={active}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.25 }}
+      >
+        <h3 className="text-2xl font-bold text-sky-700 mb-3">
+          {content[active].title}
+        </h3>
+        <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          {content[active].text}
+        </p>
+      </motion.div>
+    </AnimatePresence>
+  </div>
 </div>
 
-        </div>
-      </section>
+
+  </div>
+</section>
+
+
+      
+  {/* Pricing Section */}
+<section id="pricing" className="py-20 bg-gradient-to-b from-white to-sky-50">
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-3xl md:text-4xl font-extrabold text-sky-800">
+      Eldoret HomeBased Care Affordabl Packages
+    </h2>
+    <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+      Transparent rates tailored to your needs, no hidden fees, just quality care
+    </p>
+
+    <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {/* General Nursing Care */}
+      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 to-sky-700 rounded-t-2xl"></div>
+        <h3 className="text-xl font-semibold text-sky-700 mb-5">General Nursing Care</h3>
+        <ul className="space-y-3 text-gray-700">
+          <li className="flex justify-between">
+            Vital signs monitoring (BP, sugar, temp, pulse) 
+            <span className="font-semibold">KES 800–1,000 / visit</span>
+          </li>
+          <li className="flex justify-between">
+            Wound dressing / Injection 
+            <span className="font-semibold">KES 1,000–1,500 / session</span>
+          </li>
+          <li className="flex justify-between">
+            IV therapy (fluids, medications) 
+            <span className="font-semibold">KES 1,500–2,500 / session</span>
+          </li>
+          <li className="flex justify-between">
+            Catheterization / Catheter care 
+            <span className="font-semibold">KES 2,000–2,500 / session</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Mother & Child Care */}
+      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-pink-400 to-rose-600 rounded-t-2xl"></div>
+        <h3 className="text-xl font-semibold text-pink-600 mb-5">Mother & Child Care</h3>
+        <ul className="space-y-3 text-gray-700">
+          <li className="flex justify-between">
+            Postnatal nursing support 
+            <span className="font-semibold">KES 2,000–3,000 / visit</span>
+          </li>
+          <li className="flex justify-between">
+            Newborn care (cord care, feeding support) 
+            <span className="font-semibold">KES 2,000–3,500 / day</span>
+          </li>
+          <li className="flex justify-between">
+            Immunization support & health education 
+            <span className="font-semibold">KES 1,000–1,500 / visit</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Specialized Nursing Care */}
+      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-700 rounded-t-2xl"></div>
+        <h3 className="text-xl font-semibold text-indigo-700 mb-5">Specialized Nursing Care</h3>
+        <ul className="space-y-3 text-gray-700">
+          <li className="flex justify-between">
+            Post-surgery care (monitoring, dressing, medication) 
+            <span className="font-semibold">KES 3,500–5,000 / day</span>
+          </li>
+          <li className="flex justify-between">
+            Elderly care (mobility, feeding, hygiene) 
+            <span className="font-semibold">KES 2,500–4,000 / day</span>
+          </li>
+          <li className="flex justify-between">
+            Chronic illness management (diabetes, hypertension, cancer support) 
+            <span className="font-semibold">KES 2,000–3,500 / session or day</span>
+          </li>
+          <li className="flex justify-between">
+            Palliative care (comfort, pain management, support) 
+            <span className="font-semibold">KES 4,000–6,000 / day</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Additional Services */}
+      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-teal-600 rounded-t-2xl"></div>
+        <h3 className="text-xl font-semibold text-emerald-700 mb-5">Additional Services</h3>
+        <ul className="space-y-3 text-gray-700">
+          <li className="flex justify-between">
+            Physiotherapy at home 
+            <span className="font-semibold">KES 2,500–4,000 / session</span>
+          </li>
+          <li className="flex justify-between">
+            Nutrition & wellness coaching 
+            <span className="font-semibold">KES 1,500–2,500 / consultation</span>
+          </li>
+          <li className="flex justify-between">
+            Health education & family training 
+            <span className="font-semibold">KES 2,000–3,000 / session</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Home-Based Packages */}
+      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-400 to-orange-600 rounded-t-2xl"></div>
+        <h3 className="text-xl font-semibold text-amber-600 mb-5">Home-Based Packages</h3>
+        <ul className="space-y-3 text-gray-700">
+          <li className="flex justify-between">
+            Day Care Nursing (8h) 
+            <span className="font-semibold">KES 4,500–6,000 / day</span>
+          </li>
+          <li className="flex justify-between">
+            Night Care Nursing (12h) 
+            <span className="font-semibold">KES 5,500–7,500 / night</span>
+          </li>
+          <li className="flex justify-between">
+            24-Hour Live-in Nursing Care 
+            <span className="font-semibold">KES 10,000–15,000 / day</span>
+          </li>
+          <li className="flex justify-between text-sm text-gray-600 italic">
+            (Often billed weekly/monthly: avg. KES 60,000–100,000 per week)
+          </li>
+          <li className="flex justify-between">
+            Weekly Health Check Package (2–3 visits: vitals, meds, wound care) 
+            <span className="font-semibold">KES 6,000–8,500 / week</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 
       {/* Appointment / Contact */}
       <section id="appointment" className="py-12 md:py-16 bg-gray-50">
