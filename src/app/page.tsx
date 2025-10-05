@@ -243,6 +243,52 @@ We believe our clients and their families deserve care delivered the best home-c
               </article>
             ))}
           </div>
+          {/* How It Works - Sleek Steps */}
+<div className="mt-16">
+  <h3 className="text-xl md:text-2xl font-bold text-sky-700 text-center">
+    How Eldoret Home-Based Care Works
+  </h3>
+
+  <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-8 text-center">
+    {[
+      {
+        step: "1",
+        title: "Contact Us",
+        desc: "Reach out to our Eldoret care team and we’ll create your secure patient account instantly.",
+      },
+      {
+        step: "2",
+        title: "Log In Anytime",
+        desc: "Get immediate access to your digital dashboard with medical records and progress reports.",
+      },
+      {
+        step: "3",
+        title: "Browse Services",
+        desc: "Discover personalized nursing, elderly care, and therapy services tailored to your family’s needs.",
+      },
+      {
+        step: "4",
+        title: "Connect With Nurses",
+        desc: "Message specialized caregivers, arrange schedules, and track progress in real time.",
+      },
+      {
+        step: "5",
+        title: "Start Care",
+        desc: "Enjoy paperless, compassionate care at the comfort of your home in Eldoret and Uasin Gishu.",
+      },
+    ].map((item, i) => (
+      <div key={i} className="relative">
+        {/* Step Circle */}
+        <div className="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-sky-700 text-white font-bold text-lg shadow-md">
+          {item.step}
+        </div>
+        <h4 className="mt-4 font-semibold text-sky-700">{item.title}</h4>
+        <p className="mt-2 text-sm text-gray-600 leading-relaxed">{item.desc}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
         </div>
       </section>
       {/* Why Us */}
@@ -513,10 +559,18 @@ We believe our clients and their families deserve care delivered the best home-c
       <span>All our staff are licensed by the NCK</span>
     </div>
 
-    {/* Divider between NCK and Humphries */}
-    <div className="w-24 h-[1px] bg-white/50 my-2"></div>
+    {/* Divider before disclaimer */}
+    <div className="w-full h-[1px] bg-white/50 my-2"></div>
 
-    {/* Humphries Dev Studio logo + text horizontally aligned */}
+    {/* Disclaimer - Horizontal */}
+    <p className="text-xs text-center sm:text-base px-4">
+    Eldoret Home-Based Care is committed to truth in advertising, ensuring all information accurately reflects our home care services, professional licenses, service rates, and client testimonials. We pride ourselves on transparency, integrity, and delivering trusted home care across Eldoret and Uasin Gishu County.
+    </p>
+
+    {/* Divider after disclaimer */}
+    <div className="w-full h-[1px] bg-white/50 my-2"></div>
+
+    {/* Humphries Dev Studio logo + text */}
     <div className="flex items-center gap-2 text-sm sm:text-base font-medium">
       <Image
         src="/images/logo.jpeg"
