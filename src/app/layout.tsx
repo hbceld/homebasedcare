@@ -10,9 +10,9 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title:
-    "Dial-a-Nurse Kenya – Home-Based Care in Eldoret, Uasin Gishu County",
+    "Dial-a-Nurse Kenya – 24 Hour Home-Based Nursing Care in Eldoret, Uasin Gishu County",
   description:
-    "Trusted home care services in Eldoret town, Uasin Gishu County. Skilled nurses for elderly care, patient support, rehabilitation, and palliative home-based care at home.",
+    "Dial-a-Nurse Kenya provides 24-hour professional home nursing and elderly care services in Eldoret and Uasin Gishu County. Skilled, compassionate nurses for patients, post-surgery recovery, rehabilitation, and palliative care at home.",
   keywords: [
     "home-based care Eldoret",
     "home nursing Eldoret",
@@ -23,7 +23,6 @@ export const metadata: Metadata = {
     "palliative care Eldoret",
     "rehabilitation Eldoret",
     "Dial-a-Nurse Kenya",
-    // ✅ Added more local SEO keywords
     "private nurse Eldoret",
     "home health care Eldoret",
     "Eldoret nursing services",
@@ -45,15 +44,15 @@ export const metadata: Metadata = {
     "Eldoret maternal and child care at home",
     "nurse for hire Eldoret",
   ],
-  metadataBase: new URL("https://dialanurse.co.ke"),
+  metadataBase: new URL("https://eldorethomecare.co.ke/"),
   alternates: {
-    canonical: "https://dialanurse.co.ke",
+    canonical: "https://eldorethomecare.co.ke/",
   },
   openGraph: {
     title: "Dial-a-Nurse Kenya | Home-Based Care in Eldoret, Uasin Gishu",
     description:
       "Professional home nursing and care services delivered to your home in Eldoret, Uasin Gishu County.",
-    url: "https://dialanurse.co.ke",
+    url: "https://eldorethomecare.co.ke/",
     siteName: "Dial-a-Nurse Kenya",
     images: [
       {
@@ -75,9 +74,9 @@ export const metadata: Metadata = {
     creator: "@DialANurseKE",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [{ url: "/images/w.png", type: "image/png" }],
     apple: "/apple-touch-icon.png",
-    shortcut: "/favicon-16x16.png",
+    shortcut: "/favicon-32x32.png",
   },
   manifest: "/site.webmanifest",
   themeColor: "#0ea5e9",
@@ -98,11 +97,9 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "your-google-site-verification-code", // ✅ works fine
-    // bing must go in <head> manually
+    google: "your-google-site-verification-code",
   },
   other: {
-    // Local SEO hints
     "geo.region": "KE-UG",
     "geo.placename": "Eldoret",
     "geo.position": "0.5143;35.2698",
@@ -118,7 +115,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ✅ Bing Verification (manual, since Next.js metadata doesn’t support bing) */}
+        {/* ✅ Bing Verification */}
         <meta name="msvalidate.01" content="your-bing-verification-code" />
 
         {/* ✅ JSON-LD Schema for Local Business */}
@@ -130,8 +127,8 @@ export default function RootLayout({
               "@type": "MedicalBusiness",
               name: "Dial-a-Nurse Kenya",
               image: "https://dialanurse.co.ke/images/og-homecare.jpg",
-              "@id": "https://dialanurse.co.ke",
-              url: "https://dialanurse.co.ke",
+              "@id": "https://eldorethomecare.co.ke/",
+              url: "https://eldorethomecare.co.ke/",
               telephone: "+254728762044",
               address: {
                 "@type": "PostalAddress",
@@ -156,21 +153,64 @@ export default function RootLayout({
                     "Thursday",
                     "Friday",
                     "Saturday",
+                    "Sunday",
                   ],
-                  opens: "08:00",
-                  closes: "18:00",
+                  opens: "00:00",
+                  closes: "23:59",
                 },
               ],
               sameAs: [
-                "https://www.facebook.com/yourpage",
-                "https://twitter.com/DialANurseKE",
-                "https://www.linkedin.com/company/dialanursekenya",
+                "https://www.facebook.com/profile.php?id=61563652291470",
+                "https://x.com/HomeCareEldoret",
+                "https://www.linkedin.com/in/dial-a-nurse-home-based-nursing-care-eldoret-5975b1389/",
               ],
             }),
           }}
         />
+
+        {/* ✅ Additional JSON-LD Schema for Services */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Service",
+              serviceType: "24 Hour Home-Based Nursing Care",
+              provider: {
+                "@type": "MedicalBusiness",
+                name: "Dial-a-Nurse Kenya",
+                areaServed: {
+                  "@type": "AdministrativeArea",
+                  name: "Eldoret, Uasin Gishu County, Kenya",
+                },
+              },
+              availableChannel: {
+                "@type": "ServiceChannel",
+                serviceUrl: "https://eldorethomecare.co.ke",
+                availableLanguage: ["English", "Swahili"],
+              },
+              hoursAvailable: {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday",
+                ],
+                opens: "00:00",
+                closes: "23:59",
+              },
+            }),
+          }}
+        />
       </head>
-      <body className={`${playfair.variable} antialiased bg-white text-gray-800`}>
+
+      <body
+        className={`${playfair.variable} antialiased bg-white text-gray-800`}
+      >
         {children}
       </body>
     </html>

@@ -13,8 +13,9 @@ import {
   Instagram,
   Youtube,
   Linkedin,
-  Twitter,
+  
 } from "lucide-react";
+
 
 const features = [
   { title: "Compassionate Team", desc: "Experienced nurses dedicated to patient-centered care." },
@@ -58,18 +59,71 @@ We believe our clients and their families deserve care delivered the best home-c
               <Phone size={14} /> 0728 762 044
             </span>
             <span className="flex items-center gap-1">
-              <Mail size={14} /> info@dialanurse.co.ke
+              <Mail size={14} /> info@eldorethomecare.co.ke
             </span>
           </div>
 
           {/* socials (stay in one line, wrap below if needed) */}
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            {[Facebook, Instagram, Youtube, Linkedin, Twitter].map((Icon, i) => (
-              <a key={i} href="#" className="hover:text-gray-200" aria-label="social">
-                <Icon size={14} />
-              </a>
-            ))}
-          </div>
+     
+<div className="flex items-center gap-2 flex-wrap justify-center">
+  <a
+    href="https://www.facebook.com/profile.php?id=61563652291470"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Facebook"
+    className="hover:text-gray-200 transition"
+  >
+    <Facebook size={14} />
+  </a>
+  <a
+    href="https://instagram.com/dialanursekenya"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Instagram"
+    className="hover:text-gray-200 transition"
+  >
+    <Instagram size={14} />
+  </a>
+  <a
+    href="https://youtube.com/@dialanursekenya"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="YouTube"
+    className="hover:text-gray-200 transition"
+  >
+    <Youtube size={14} />
+  </a>
+  <a
+    href="https://www.linkedin.com/in/international-home-based-nursing-care-eldoret-5975b1389/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="LinkedIn"
+    className="hover:text-gray-200 transition"
+  >
+    <Linkedin size={14} />
+  </a>
+  <a
+  href="https://x.com/HomeCareEldoret"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="X (formerly Twitter)"
+  className="hover:text-gray-200 transition"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1200 1227"
+    width={14}
+    height={14}
+    fill="currentColor"
+  >
+    <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.747 681.821L0 1226.37H105.864L515.373 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.201 687.828L521.124 619.931L144.52 80.036H306.401L602.325 505.509L650.402 573.406L1056.31 1146.33H894.428L569.201 687.828Z" />
+  </svg>
+</a>
+
+
+</div>
+
+
         </div>
       </div>
 
@@ -79,9 +133,19 @@ We believe our clients and their families deserve care delivered the best home-c
           {/* Top row: logo + actions/logins (wrap on very small screens) */}
           <div className="flex flex-wrap items-center justify-between py-1 gap-2">
             {/* Logo */}
-            <div className="flex-shrink-0 h-8 flex items-center text-sm sm:text-lg font-bold text-sky-700 whitespace-nowrap">
-              Dial-a-Nurse Kenya
-            </div>
+            {/* Logo */}
+<div className="flex-shrink-0 h-8 flex items-center gap-2 text-sm sm:text-lg font-bold text-sky-700 whitespace-nowrap">
+  <Image
+    src="/images/land.png"
+    alt="Dial-a-Nurse Kenya logo"
+    width={100}
+    height={36}
+    className="object-contain rounded-md"
+    priority
+  />
+  Dial-a-Nurse Kenya
+</div>
+
 
             {/* Right side (links + logins) */}
             <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm justify-end">
@@ -100,7 +164,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
               {/* logins */}
               <div className="flex items-center gap-1 text-[11px] text-gray-600 whitespace-nowrap">
-                <Link href="/login/nurse" className="hover:text-sky-600">
+                <Link href="/login/nurse" className="hover:text-sky-600 text">
                   Nurse Login
                 </Link>
                 <span className="text-gray-300">|</span>
@@ -287,6 +351,8 @@ We believe our clients and their families deserve care delivered the best home-c
       </div>
     ))}
   </div>
+
+
 </div>
 
         </div>
@@ -369,6 +435,7 @@ We believe our clients and their families deserve care delivered the best home-c
       >
         {content[key].title}
       </button>
+      
     ))}
   </div>
 
@@ -392,6 +459,7 @@ We believe our clients and their families deserve care delivered the best home-c
     </AnimatePresence>
   </div>
 </div>
+
 
 
   </div>
@@ -543,7 +611,7 @@ We believe our clients and their families deserve care delivered the best home-c
           </p>
           <div className="mt-5 space-y-2 text-gray-800">
             <p className="font-semibold">📞 0728 762 044</p>
-            <p className="font-semibold">📧 info@dialanurse.co.ke</p>
+            <p className="font-semibold">📧 info@eldorethomecare.co.ke</p>
             <p>📍 Eldoret, Uasin Gishu County</p>
           </div>
         </div>

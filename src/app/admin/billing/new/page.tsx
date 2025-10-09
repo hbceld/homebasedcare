@@ -111,7 +111,7 @@ export default function NewBillingPage() {
                     setForm({ ...form, patient: e.target.value })
                   }
                   onClick={loadPatients}
-                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none text-black"
                   required
                 >
                   <option value="">-- Select Patient --</option>
@@ -127,7 +127,7 @@ export default function NewBillingPage() {
                   value={form.nurse}
                   onChange={(e) => setForm({ ...form, nurse: e.target.value })}
                   onClick={loadNurses}
-                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none text-black"
                 >
                   <option value="">-- Select Nurse --</option>
                   {loadingNurses && <option>Loading...</option>}
@@ -151,7 +151,7 @@ export default function NewBillingPage() {
                   onChange={(e) =>
                     setForm({ ...form, billing_period: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none text-black"
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
@@ -164,7 +164,7 @@ export default function NewBillingPage() {
                   onChange={(e) =>
                     setForm({ ...form, due_date: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none text-black"
                 />
               </div>
             </section>
@@ -184,7 +184,7 @@ export default function NewBillingPage() {
                       setForm({ ...form, amount_due: e.target.value })
                     }
                     placeholder="Amount Due"
-                    className="w-full pl-10 border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    className="w-full pl-10 border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none text-black"
                     required
                   />
                 </div>
@@ -194,7 +194,7 @@ export default function NewBillingPage() {
                   onChange={(e) =>
                     setForm({ ...form, payment_method: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none text-black"
                 >
                   <option value="cash">Cash</option>
                   <option value="mpesa">M-Pesa</option>

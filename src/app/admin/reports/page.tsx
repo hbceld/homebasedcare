@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { fetchReports, fetchPatients, fetchNurses, createReport } from "@/lib/api";
 import Link from "next/link";
 
+type ReportRaw = any;
+
 export default function ReportsPage() {
   const [reports, setReports] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,14 +28,101 @@ export default function ReportsPage() {
     is_finalized: false,
   });
 
-  // Fetch reports
+  // Helper maps for quick lookup
+  const makeMap = (arr: any[], idKey = "id", nameKeyCandidates: string[] = ["full_name", "nurse_name", "patient_name", "name"]) => {
+    const map = new Map<number | string, string>();
+    for (const item of arr || []) {
+      const id = item?.[idKey];
+      if (id == null) continue;
+      // try several name candidates
+      let name = "";
+      for (const nk of nameKeyCandidates) {
+        if (item[nk]) {
+          name = item[nk];
+          break;
+        }
+      }
+      if (!name) {
+        // fallback to some other fields
+        name = item.full_name || item.patient_name || item.nurse_name || String(id);
+      }
+      map.set(id, name);
+    }
+    return map;
+  };
+
+  // Normalize a report to guarantee date_time, patient_name and nurse_name
+  const normalizeReport = (r: ReportRaw, patientMap: Map<any, string>, nurseMap: Map<any, string>) => {
+    const copy = { ...r };
+
+    // Date resolution: check common fields and fallback to now
+    const maybeDate = copy.date_time ?? copy.date ?? copy.created_at ?? copy.timestamp ?? null;
+    let dt = maybeDate ? new Date(maybeDate) : new Date();
+    if (isNaN(dt.getTime())) {
+      // try parse numbers (unix seconds or ms)
+      if (typeof maybeDate === "number") {
+        dt = new Date(maybeDate);
+      } else {
+        dt = new Date();
+      }
+    }
+    copy.date_time = dt.toISOString();
+
+    // Patient name resolution: prefer explicit patient_name, then lookup by id fields patient or patient_id
+    if (!copy.patient_name) {
+      const patientId = copy.patient ?? copy.patient_id ?? copy.patient_pk ?? null;
+      if (patientId != null && patientMap.has(patientId)) copy.patient_name = patientMap.get(patientId);
+      else if (copy.patient && typeof copy.patient === "object" && copy.patient.full_name) copy.patient_name = copy.patient.full_name;
+      else copy.patient_name = copy.patient_name || "-";
+    }
+
+    // Nurse name resolution: prefer nurse_name, then nurse or nurse_id
+    if (!copy.nurse_name) {
+      const nurseId = copy.nurse ?? copy.nurse_id ?? copy.created_by ?? null;
+      if (nurseId != null && nurseMap.has(nurseId)) copy.nurse_name = nurseMap.get(nurseId);
+      else if (copy.nurse && typeof copy.nurse === "object" && (copy.nurse.full_name || copy.nurse.nurse_name)) copy.nurse_name = copy.nurse.full_name || copy.nurse.nurse_name;
+      else copy.nurse_name = copy.nurse_name || "-";
+    }
+
+    // verified_by ensure string
+    if (!copy.verified_by && copy.verified_by !== "") copy.verified_by = copy.verified_by ?? "-";
+
+    // Ensure booleans exist
+    copy.is_finalized = !!copy.is_finalized;
+
+    return copy;
+  };
+
+  // Load reports, patients and nurses on mount
   useEffect(() => {
     async function load() {
+      setLoading(true);
       try {
-        const data = await fetchReports();
-        setReports(data);
+        // fetch in parallel
+        const [reportsData, patientsData, nursesData] = await Promise.all([
+          fetchReports().catch(() => []),
+          fetchPatients().catch(() => []),
+          fetchNurses().catch(() => []),
+        ]);
+
+        // Build lookup maps
+        const patientMap = makeMap(patientsData, "id", ["full_name", "patient_name", "name"]);
+        const nurseMap = makeMap(nursesData, "id", ["full_name", "nurse_name", "name"]);
+
+        // Normalize reports
+        const normalized = (Array.isArray(reportsData) ? reportsData : []).map((r: any) =>
+          normalizeReport(r, patientMap, nurseMap)
+        );
+
+        // Sort newest first by date_time
+        normalized.sort((a: any, b: any) => new Date(b.date_time).getTime() - new Date(a.date_time).getTime());
+
+        setReports(normalized);
+        setPatients(Array.isArray(patientsData) ? patientsData : []);
+        setNurses(Array.isArray(nursesData) ? nursesData : []);
       } catch (err: any) {
-        setError(err.message);
+        console.error("Failed loading data:", err);
+        setError(err?.message || "Failed to load data");
       } finally {
         setLoading(false);
       }
@@ -41,28 +130,36 @@ export default function ReportsPage() {
     load();
   }, []);
 
-  // Fetch patients and nurses when modal opens
+  // When modal opens, prefill selects (if patients/nurses not yet loaded fetch them)
   useEffect(() => {
     if (!showModal) return;
 
-    async function loadData() {
+    async function ensureData() {
       try {
-        const [patientsData, nursesData] = await Promise.all([fetchPatients(), fetchNurses()]);
-        setPatients(patientsData);
-        setNurses(nursesData);
-        if (patientsData.length) setFormData(prev => ({ ...prev, patient: patientsData[0].id }));
-        if (nursesData.length) setFormData(prev => ({ ...prev, nurse: nursesData[0].id }));
+        // If lists already exist we still want to ensure defaults are set
+        if (patients.length === 0 || nurses.length === 0) {
+          const [patientsData, nursesData] = await Promise.all([fetchPatients().catch(() => []), fetchNurses().catch(() => [])]);
+          if (patientsData.length) setPatients(patientsData);
+          if (nursesData.length) setNurses(nursesData);
+          if (patientsData.length) setFormData(prev => ({ ...prev, patient: patientsData[0].id }));
+          if (nursesData.length) setFormData(prev => ({ ...prev, nurse: nursesData[0].id }));
+        } else {
+          if (patients.length) setFormData(prev => ({ ...prev, patient: (prev.patient || patients[0].id) }));
+          if (nurses.length) setFormData(prev => ({ ...prev, nurse: (prev.nurse || nurses[0].id) }));
+        }
       } catch (err) {
         console.error(err);
       }
     }
-    loadData();
+
+    ensureData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type } = e.target;
+    const { name, value, type } = e.target as any;
     if (type === "checkbox") {
       const target = e.target as HTMLInputElement;
       setFormData(prev => ({ ...prev, [name]: target.checked }));
@@ -73,14 +170,48 @@ export default function ReportsPage() {
 
   const handleSubmit = async () => {
     try {
+      // Prepare payload: convert blank strings to null where appropriate
       const payload = {
-        ...formData,
-        vitals_recorded: formData.vitals_recorded || null, // save as plain text
+        patient: formData.patient || null,
+        nurse: formData.nurse || null,
+        report_type: formData.report_type || null,
+        shift: formData.shift || null,
+        observations: formData.observations || null,
+        care_provided: formData.care_provided || null,
+        medication_given: formData.medication_given || null,
+        vitals_recorded: formData.vitals_recorded || null,
+        recommendations: formData.recommendations || null,
+        verified_by: formData.verified_by || null,
+        is_finalized: !!formData.is_finalized,
       };
 
       const createdReport = await createReport(payload);
 
-      setReports(prev => [createdReport, ...prev]);
+      // Build maps to normalize created report
+      const patientMap = makeMap(patients, "id", ["full_name", "patient_name", "name"]);
+      const nurseMap = makeMap(nurses, "id", ["full_name", "nurse_name", "name"]);
+
+      // If server didn't return date or names, add them client-side
+      const normalized = normalizeReport(createdReport || {
+        // fallback if server returned nothing
+        report_id: `local-${Date.now()}`,
+        patient: payload.patient,
+        patient_name: patients.find(p => String(p.id) === String(payload.patient))?.full_name ?? "-",
+        nurse: payload.nurse,
+        nurse_name: nurses.find(n => String(n.id) === String(payload.nurse))?.full_name ?? "-",
+        report_type: payload.report_type,
+        shift: payload.shift,
+        observations: payload.observations,
+        care_provided: payload.care_provided,
+        medication_given: payload.medication_given,
+        vitals_recorded: payload.vitals_recorded,
+        recommendations: payload.recommendations,
+        verified_by: payload.verified_by || "-",
+        is_finalized: payload.is_finalized,
+        date_time: new Date().toISOString(),
+      }, patientMap, nurseMap);
+
+      setReports(prev => [normalized, ...prev]);
       setShowModal(false);
       setFormData({
         patient: "",
@@ -96,7 +227,8 @@ export default function ReportsPage() {
         is_finalized: false,
       });
     } catch (err: any) {
-      alert(err.message || "Failed to create report.");
+      console.error("Create report failed:", err);
+      alert(err?.message || "Failed to create report.");
     }
   };
 
@@ -136,7 +268,7 @@ export default function ReportsPage() {
 
         {reports.map((r) => (
           <div
-            key={r.report_id}
+            key={r.report_id ?? r.id ?? `${r.patient}_${r.date_time}`}
             className="border rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl transition duration-300"
           >
             {/* Header */}
@@ -145,8 +277,18 @@ export default function ReportsPage() {
                 <p className="text-xs text-gray-400 uppercase font-medium">Dial-a-Nurse</p>
                 <p className="text-xs text-gray-400 uppercase font-medium">Gishu Homebased Care</p>
               </div>
-              <div className="text-right">
-                <p className="text-sm font-semibold">{new Date(r.date_time).toLocaleString()}</p>
+              <div className="text-right text-black">
+                <p className="text-sm font-semibold">
+                  {(() => {
+                    try {
+                      const dt = new Date(r.date_time);
+                      if (isNaN(dt.getTime())) return new Date().toLocaleString();
+                      return dt.toLocaleString();
+                    } catch {
+                      return new Date().toLocaleString();
+                    }
+                  })()}
+                </p>
                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                   r.is_finalized ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700"
                 }`}>
@@ -157,37 +299,37 @@ export default function ReportsPage() {
 
             {/* Patient Info */}
             <div className="mb-4">
-              <h2 className="text-xl font-bold text-gray-800">{r.patient_name}</h2>
-              <p className="text-sm text-gray-500">Assigned Nurse: {r.nurse_name || "-"}</p>
-              <p className="text-sm text-gray-500">Report Type: {r.report_type}</p>
+              <h2 className="text-xl font-bold text-gray-800">{r.patient_name ?? "-"}</h2>
+              <p className="text-sm text-gray-500">Assigned Nurse: {r.nurse_name ?? (r.nurse || "-")}</p>
+              <p className="text-sm text-gray-500">Report Type: {r.report_type ?? "-"}</p>
               <p className="text-sm text-gray-500">Shift: {r.shift || "-"}</p>
             </div>
 
             {/* Body Sections */}
-            <div className="grid grid-cols-2 gap-4 text-gray-700 text-sm">
+            <div className="grid grid-cols-2 gap-4 text-black text-sm">
               <div>
                 <h3 className="font-semibold mb-1">Observations</h3>
-                <p className="text-gray-600">{r.observations || "-"}</p>
+                <p className="text-black">{r.observations || "-"}</p>
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Care Provided</h3>
-                <p className="text-gray-600">{r.care_provided || "-"}</p>
+                <p className="text-black">{r.care_provided || "-"}</p>
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Medication Given</h3>
-                <p className="text-gray-600">{r.medication_given || "-"}</p>
+                <p className="text-black">{r.medication_given || "-"}</p>
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Vitals</h3>
-                <p className="text-gray-600">{r.vitals_recorded || "-"}</p>
+                <p className="text-black">{r.vitals_recorded || "-"}</p>
               </div>
               <div className="col-span-2">
                 <h3 className="font-semibold mb-1">Recommendations</h3>
-                <p className="text-gray-600">{r.recommendations || "-"}</p>
+                <p className="text-black">{r.recommendations || "-"}</p>
               </div>
               <div className="col-span-2">
                 <h3 className="font-semibold mb-1">Verified By</h3>
-                <p className="text-gray-600">{r.verified_by || "-"}</p>
+                <p className="text-black">{r.verified_by || "-"}</p>
               </div>
             </div>
           </div>
@@ -214,6 +356,7 @@ export default function ReportsPage() {
                   onChange={handleChange}
                   className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
+                  <option value="">Select patient</option>
                   {patients.map(p => (
                     <option key={p.id} value={p.id}>{p.full_name || p.patient_name}</option>
                   ))}
@@ -229,6 +372,7 @@ export default function ReportsPage() {
                   onChange={handleChange}
                   className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
+                  <option value="">Select nurse</option>
                   {nurses.map(n => (
                     <option key={n.id} value={n.id}>{n.full_name || n.nurse_name}</option>
                   ))}
@@ -284,7 +428,7 @@ export default function ReportsPage() {
             </div>
 
             {/* Text Areas */}
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 space-y-4 text-black">
               {[
                 { label: "Observations", name: "observations" },
                 { label: "Care Provided", name: "care_provided" },
@@ -337,4 +481,3 @@ export default function ReportsPage() {
     </div>
   );
 }
-

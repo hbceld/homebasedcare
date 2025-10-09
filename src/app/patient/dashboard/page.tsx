@@ -29,19 +29,25 @@ interface User {
 
 interface NurseReport {
   id: number;
-  report_type: string;
-  shift: string;
-  observations: string;
-  care_provided: string;
-  medication_given: string;
-  vitals_recorded: string;
-  recommendations: string;
-  created_at: string;
-  nurse?: { id: number; full_name: string } | null;
+  report_type?: string;
+  shift?: string;
+  observations?: string;
+  care_provided?: string;
+  medication_given?: string;
+  vitals_recorded?: string;
+  recommendations?: string;
+  created_at?: string;
+  // some APIs attach nurse as object, some only return id; we normalize to this shape
+  nurse?: { id?: number; full_name?: string } | null;
+  // possible alternative id fields
+  nurse_id?: number | null;
+  created_by?: number | null;
+  [k: string]: any;
 }
 
 const API_BASE = (process.env.NEXT_PUBLIC_LOCAL_API_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
 
+/** fetch patient record by user id */
 async function getPatientData(userId: number) {
   const token = sessionStorage.getItem("access");
   if (!token) {
@@ -71,6 +77,7 @@ async function getPatientData(userId: number) {
   return res.json();
 }
 
+/** fetch reports for the currently authenticated patient */
 async function getPatientReports() {
   const token = sessionStorage.getItem("access");
   if (!token) return [];
@@ -81,10 +88,11 @@ async function getPatientReports() {
     },
   });
   if (!res.ok) return [];
-  return res.json();
+  const data = await res.json().catch(() => []);
+  return Array.isArray(data) ? data : [];
 }
 
-/** Try to fetch nurse details when only an ID was returned */
+/** fetch nurse details by id and return a full_name string (or null) */
 async function fetchNurseById(id: number) {
   const token = sessionStorage.getItem("access");
   if (!token) return null;
@@ -97,7 +105,7 @@ async function fetchNurseById(id: number) {
     });
     if (!res.ok) return null;
     const data = await res.json();
-    // Nurse endpoints might return { id, user: { full_name } } or { id, full_name }
+    // endpoint may return { user: { full_name } } or { full_name }
     if (data?.user?.full_name) return String(data.user.full_name);
     if (data?.full_name) return String(data.full_name);
     return null;
@@ -105,6 +113,14 @@ async function fetchNurseById(id: number) {
     console.warn("Failed to fetch nurse details:", e);
     return null;
   }
+}
+
+/** normalize created_at -> ISO string fallback */
+function ensureDateString(dt?: string) {
+  if (!dt) return new Date().toISOString();
+  const parsed = new Date(dt);
+  if (isNaN(parsed.getTime())) return new Date().toISOString();
+  return parsed.toISOString();
 }
 
 export default function PatientDashboard() {
@@ -125,11 +141,12 @@ export default function PatientDashboard() {
 
     const loadData = async () => {
       try {
+        // 1) fetch patient
         const raw = await getPatientData(parsedUser.id);
         console.log("RAW patient data from API:", raw);
 
         // Normalize assigned_nurse into consistent object shape
-        const normalized: Patient | null = raw
+        const normalizedPatient: Patient | null = raw
           ? {
               ...raw,
               assigned_nurse: (() => {
@@ -144,24 +161,75 @@ export default function PatientDashboard() {
             }
           : null;
 
-        console.log("NORMALIZED patient data:", normalized);
-        setPatient(normalized);
+        console.log("NORMALIZED patient data:", normalizedPatient);
+        setPatient(normalizedPatient);
 
         // If assigned_nurse was a number (we marked _needsFetch), try to fetch name
-        if (normalized?.assigned_nurse && (normalized.assigned_nurse as AssignedNurseShape)._needsFetch) {
-          const nid = (normalized.assigned_nurse as AssignedNurseShape).id;
+        if (normalizedPatient?.assigned_nurse && (normalizedPatient.assigned_nurse as AssignedNurseShape)._needsFetch) {
+          const nid = (normalizedPatient.assigned_nurse as AssignedNurseShape).id;
           const name = await fetchNurseById(nid);
           if (name) {
             setPatient((prev) => (prev ? { ...prev, assigned_nurse: { id: nid, full_name: name } } : prev));
             console.log("Fetched nurse name for ID", nid, "->", name);
           } else {
-            // keep nurse id but no name
             setPatient((prev) => (prev ? { ...prev, assigned_nurse: { id: nid, full_name: null } } : prev));
           }
         }
 
-        const reportData = await getPatientReports();
-        setReports(reportData);
+        // 2) fetch patient reports
+        const rawReports = (await getPatientReports()) as NurseReport[];
+        const safeReports = Array.isArray(rawReports) ? rawReports : [];
+
+        // 3) determine which reports lack nurse.full_name and collect the unique nurse ids to fetch
+        const missingNurseIds = new Set<number>();
+        for (const r of safeReports) {
+          const hasName = !!(r.nurse && r.nurse.full_name);
+          if (!hasName) {
+            // try multiple places for nurse id
+            const candidate =
+              (r.nurse && (r.nurse as any).id) ??
+              r.nurse_id ??
+              r.created_by ??
+              (r as any).created_by_id ??
+              null;
+            if (candidate != null && !isNaN(Number(candidate))) missingNurseIds.add(Number(candidate));
+          }
+        }
+
+        // 4) fetch names for each missing id (parallel)
+        const idList = Array.from(missingNurseIds);
+        const idToName = new Map<number, string | null>();
+        if (idList.length > 0) {
+          const results = await Promise.all(idList.map((id) => fetchNurseById(id)));
+          idList.forEach((id, idx) => idToName.set(id, results[idx] ?? null));
+        }
+
+        // 5) inject nurse full_name into reports where possible and normalize created_at
+        const resolvedReports = safeReports.map((r) => {
+          const copy: NurseReport = { ...r };
+          // normalize date
+          copy.created_at = ensureDateString(copy.created_at);
+
+          // if nurse exists with full_name already, keep it
+          if (copy.nurse && copy.nurse.full_name) return copy;
+
+          // else try find an id from likely fields
+          const nurseId =
+            (copy.nurse && (copy.nurse as any).id) ??
+            copy.nurse_id ??
+            copy.created_by ??
+            (copy as any).created_by_id ??
+            null;
+
+          if (nurseId != null && idToName.has(Number(nurseId))) {
+            const name = idToName.get(Number(nurseId));
+            copy.nurse = { ...(copy.nurse || {}), id: Number(nurseId), full_name: name ?? undefined };
+          }
+
+          return copy;
+        });
+
+        setReports(resolvedReports);
       } catch (err: any) {
         console.error("Error loading patient data:", err);
         alert("Failed to fetch your data: " + (err?.message || err));
@@ -171,9 +239,10 @@ export default function PatientDashboard() {
     };
 
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // compute the label once and always in scope (before any JSX usage)
+  // assigned nurse label for patient card
   const assignedNurseDisplay = (() => {
     if (!patient?.assigned_nurse) return "Not assigned";
     if (typeof patient.assigned_nurse === "number") return `Nurse #${patient.assigned_nurse}`;
@@ -266,15 +335,18 @@ export default function PatientDashboard() {
                 borderRadius: "6px",
               }}
             >
-              <p><strong>Date:</strong> {new Date(r.created_at).toLocaleString()}</p>
-              <p><strong>Report Type:</strong> {r.report_type}</p>
-              <p><strong>Shift:</strong> {r.shift}</p>
-              <p><strong>Observations:</strong> {r.observations}</p>
-              <p><strong>Care Provided:</strong> {r.care_provided}</p>
-              <p><strong>Medication Given:</strong> {r.medication_given}</p>
-              <p><strong>Vitals:</strong> {r.vitals_recorded}</p>
-              <p><strong>Recommendations:</strong> {r.recommendations}</p>
-              <p><strong>Nurse:</strong> {r.nurse?.full_name ?? "N/A"}</p>
+              <p><strong>Date:</strong> {r.created_at ? new Date(r.created_at).toLocaleString() : new Date().toLocaleString()}</p>
+              <p><strong>Report Type:</strong> {r.report_type ?? "N/A"}</p>
+              <p><strong>Shift:</strong> {r.shift ?? "N/A"}</p>
+              <p><strong>Observations:</strong> {r.observations ?? "N/A"}</p>
+              <p><strong>Care Provided:</strong> {r.care_provided ?? "N/A"}</p>
+              <p><strong>Medication Given:</strong> {r.medication_given ?? "N/A"}</p>
+              <p><strong>Vitals:</strong> {r.vitals_recorded ?? "N/A"}</p>
+              <p><strong>Recommendations:</strong> {r.recommendations ?? "N/A"}</p>
+              <p><strong></strong> {r.nurse?.full_name ?? (() => {
+                const id = (r.nurse && (r.nurse as any).id) ?? r.nurse_id ?? r.created_by ?? (r as any).created_by_id ?? null;
+                return id != null ? `Nurse #${id}` : "";
+              })()}</p>
             </div>
           ))}
         </div>
@@ -282,3 +354,4 @@ export default function PatientDashboard() {
     </div>
   );
 }
+
