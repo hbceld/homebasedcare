@@ -10,8 +10,8 @@ export default function BlogPage() {
       title: "Home-Based Nursing Care in Eldoret: Why Families Trust Dial-a-Nurse Kenya",
       date: "October 10, 2025",
       author: "Dial-a-Nurse Team",
-      excerpt: `Dial-a-Nurse Kenya provides compassionate, skilled home-based care in Eldoret and across Uasin Gishu County. 
-For families searching “home-based care Eldoret” or “home care Eldoret,” our team delivers personalised nursing, elderly care, wound management, medication administration, and rehabilitation therapy at home. 
+      excerpt: `Dial-a-Nurse Kenya provides compassionate, skilled home-based nursing care in Eldoret and across Uasin Gishu County. 
+For families searching “home-based nursing care Eldoret” or “home care Eldoret,” our team delivers personalised nursing, elderly care, wound management, medication administration, and rehabilitation therapy at home. 
 Choosing local home nursing means faster response times, culturally aware care, and continuity from a trusted Eldoret nurse.
 
 Our skilled nursing services include injections, vital sign monitoring, wound dressing, and post-operative support. 
@@ -107,7 +107,7 @@ Dial-a-Nurse Kenya is based in Eldoret and committed to affordable, transparent,
       excerpt: `The Complete Guide to Home-Based Nursing Care in Eldoret
     
     Introduction
-    Healthcare is changing, and in Eldoret, Uasin Gishu County, more families are turning to home-based nursing care as a safer, affordable, and more personalized option. Instead of long hospital stays or relying on untrained house helps, professional nurses now deliver skilled, compassionate care directly to your doorstep. This guide explores everything you need to know about home nursing care in Eldoret—who needs it, what services are included, and why families are making the shift.
+    Healthcare is changing, and in Eldoret, Uasin Gishu County, more families are turning to home-based nursing care as a safer, affordable, and more personalized option. Instead of long hospital stays or relying on untrained house helps, professional nurses now deliver skilled, compassionate care directly to your doorstep. This guide explores everything you need to know about home nursing care in Eldoret, who needs it, what services are included, and why families are making the shift.
     
     What is Home-Based Nursing Care?
     Home-based nursing care means receiving medical and personal care services in the comfort of your own home. Unlike ordinary caregiving, this care is provided by qualified nurses and trained caregivers who can handle medical needs such as wound dressing, injections, medication management, and rehabilitation therapy.
@@ -175,7 +175,7 @@ Dial-a-Nurse Kenya is based in Eldoret and committed to affordable, transparent,
     You can call, email, or book directly through our website.
     
     Conclusion: Quality Care, Right at Home
-    Home-based nursing care is more than a service—it’s peace of mind. For families in Eldoret, it ensures loved ones receive professional medical support while staying close to home. At Dial-a-Nurse Kenya, we combine compassion, skill, and reliability to deliver healthcare that truly matters.
+    Home-based nursing care is more than a service, it’s peace of mind. For families in Eldoret, it ensures loved ones receive professional medical support while staying close to home. At Dial-a-Nurse Kenya, we combine compassion, skill, and reliability to deliver healthcare that truly matters.
     
     📞 Call us today at 0728 762 044
     📧 Email: info@dialanurse.co.ke

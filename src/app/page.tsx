@@ -21,7 +21,7 @@ const features = [
   { title: "Compassionate Team", desc: "Experienced nurses dedicated to patient-centered care." },
   { title: "Tailored Plans", desc: "Care designed around your needs, schedule and budget." },
   { title: "Local & Reliable", desc: "We operate from Eldoret and know the community well." },
-  { title: "Transparent Pricing", desc: "Affordable home-based care with no hidden fees." },
+  { title: "Transparent Pricing", desc: "Affordable home-based Nursing care with no hidden fees." },
 ];
 
 
@@ -32,17 +32,17 @@ export default function HomePage() {
   const content = {
     mission: {
       title: "Our Mission",
-      text: `Eldoret Home-Based Care has a special purpose to help people enjoy a safe home life filled with comfort, independence, and dignity. Our goal at Eldoret Home-Based Care is to provide the highest quality home health care services in Eldoret.
+      text: `Eldoret Home-Based Nursing Care has a special purpose to help people enjoy a safe home life filled with comfort, independence, and dignity. Our goal at Eldoret Home-Based Nursing Care is to provide the highest quality home health care services in Eldoret.
 
 We believe our clients and their families deserve care delivered the best home-care way, with compassion, excellence, and reliability.`
     },
     values: {
       title: "Our Values",
-      text: `At Eldoret Home-Based Care, we believe the well-being of our clients is our highest priority. Every person deserves to live a life of comfort, independence, and dignity within their own home. Our timeless values of compassion, excellence, and reliability guide the care we provide to families in Eldoret and across Uasin Gishu. By staying true to these values, we ensure that children, adults, and seniors receive professional and culturally sensitive support tailored to their unique needs. With our trusted home care services in Eldoret, we make it possible for people of all ages to experience their best quality of life, wherever they call home.`
+      text: `At Eldoret Home-Based Nursing Care, we believe the well-being of our clients is our highest priority. Every person deserves to live a life of comfort, independence, and dignity within their own home. Our timeless values of compassion, excellence, and reliability guide the care we provide to families in Eldoret and across Uasin Gishu. By staying true to these values, we ensure that children, adults, and seniors receive professional and culturally sensitive support tailored to their unique needs. With our trusted home care services in Eldoret, we make it possible for people of all ages to experience their best quality of life, wherever they call home.`
     },
     philosophy: {
       title: "Our Philosophy",
-      text: `At Eldoret Home-Based Care, we believe our clients always come first, and their well-being is at the heart of everything we do. We recognize that our caregivers and employees are our greatest asset, and we are committed to supporting them as they provide compassionate, professional care. Building strong relationships and working together with families and the community is essential to our success as trusted providers of home health care in Eldoret. We uphold honesty and integrity in all our services, ensuring families can rely on us with confidence. Beyond delivering care, we are dedicated to giving back through community service where we live and work. We also believe in maintaining a strong financial foundation to support our growth, so that more families in Eldoret and beyond can access quality, reliable, and affordable home-based care.`
+      text: `At Eldoret Home-Based Nursing Care, we believe our clients always come first, and their well-being is at the heart of everything we do. We recognize that our caregivers and employees are our greatest asset, and we are committed to supporting them as they provide compassionate, professional care. Building strong relationships and working together with families and the community is essential to our success as trusted providers of home health care in Eldoret. We uphold honesty and integrity in all our services, ensuring families can rely on us with confidence. Beyond delivering care, we are dedicated to giving back through community service where we live and work. We also believe in maintaining a strong financial foundation to support our growth, so that more families in Eldoret and beyond can access quality, reliable, and affordable home-based care.`
     }
   };
   return (
@@ -76,22 +76,13 @@ We believe our clients and their families deserve care delivered the best home-c
     <Facebook size={14} />
   </a>
   <a
-    href="https://instagram.com/dialanursekenya"
+    href="https://www.instagram.com/dial_a_nurse_kenya?igsh=Z2gzMGFiZTZmeHI2"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Instagram"
     className="hover:text-gray-200 transition"
   >
     <Instagram size={14} />
-  </a>
-  <a
-    href="https://youtube.com/@dialanursekenya"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="YouTube"
-    className="hover:text-gray-200 transition"
-  >
-    <Youtube size={14} />
   </a>
   <a
     href="https://www.linkedin.com/in/international-home-based-nursing-care-eldoret-5975b1389/"
@@ -214,7 +205,7 @@ We believe our clients and their families deserve care delivered the best home-c
         <div className="relative z-10 w-full">
           <div className="max-w-4xl mx-auto px-4 pb-8 sm:pb-14">
             <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-center sm:text-left">
-              Home-Based Care in Eldoret, Uasin Gishu
+              Home-Based Nursing Care in Eldoret, Uasin Gishu
             </h1>
 
             <p className="mt-3 text-white/90 text-sm sm:text-base md:text-lg max-w-2xl text-center sm:text-left">
@@ -243,18 +234,32 @@ We believe our clients and their families deserve care delivered the best home-c
 
       {/* About (brief, optional) */}
       <section id="about" className="py-12 md:py-16">
-        <div className="max-w-6xl mx-auto px-4 text-center md:text-left">
-          <h2 className="text-2xl md:text-3xl font-bold text-sky-700">
-            Who we are
-          </h2>
-          <p className="mt-3 text-gray-600 max-w-3xl">
-            Dial-a-Nurse Kenya provides trusted home-based nursing and caregiving
-            across Eldoret and Uasin Gishu. Our team offers personalised care
-            plans, skilled nursing, rehabilitation, and compassionate support
-            for elderly and chronically ill patients in the comfort of their
-            homes.
-          </p>
-        </div>
+      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between gap-4 overflow-hidden">
+  {/* Image Section */}
+  <div className="w-1/2 flex justify-center">
+    <img
+      src="/images/vvv.png"
+      alt="Who we are"
+      className="rounded-xl object-contain w-full h-auto max-w-[380px]"
+    />
+  </div>
+
+  {/* Text Section */}
+  <div className="w-1/2 text-left">
+    <h2 className="text-2xl md:text-3xl font-bold text-sky-700">
+      Who we are
+    </h2>
+    <p className="mt-3 text-gray-600 leading-relaxed">
+      Dial-a-Nurse Kenya provides trusted home-based nursing and caregiving
+      across Eldoret and Uasin Gishu. Our team offers personalised care
+      plans, skilled nursing, rehabilitation, and compassionate support
+      for elderly and chronically ill patients in the comfort of their
+      homes.
+    </p>
+  </div>
+</div>
+
+
       </section>
 
       {/* Services */}
@@ -264,7 +269,7 @@ We believe our clients and their families deserve care delivered the best home-c
             Our Home Care Services in Eldoret
           </h2>
           <p className="mt-2 text-gray-600 text-center">
-            Comprehensive home-based care across Uasin Gishu County
+            Comprehensive home-based nursing care across Uasin Gishu County
           </p>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -310,7 +315,7 @@ We believe our clients and their families deserve care delivered the best home-c
           {/* How It Works - Sleek Steps */}
 <div className="mt-16">
   <h3 className="text-xl md:text-2xl font-bold text-sky-700 text-center">
-    How Eldoret Home-Based Care Works
+    How Eldoret Home-Based Nursing Care Works
   </h3>
 
   <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-8 text-center">
@@ -365,7 +370,7 @@ We believe our clients and their families deserve care delivered the best home-c
       Why Families in Eldoret Trust Us
     </h2>
     <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-      At <span className="font-semibold text-sky-700">Eldoret Home-Based Care</span>, 
+      At <span className="font-semibold text-sky-700">Eldoret Home-Based Nursing Care</span>, 
       we deliver compassionate, professional, and culturally sensitive care 
       for adults, seniors, and children across Uasin Gishu. Every service we offer 
       is designed to bring comfort, dignity, and peace of mind to your family.
@@ -375,12 +380,12 @@ We believe our clients and their families deserve care delivered the best home-c
       {[
         {
           title: "Personal Care & Companionship",
-          desc: "Gentle assistance with grooming, meals, mobility, and daily living—offered with kindness and respect.",
+          desc: "Gentle assistance with grooming, meals, mobility, and daily living,offered with kindness and respect.",
           icon: "🤝"
         },
         {
           title: "Home Health Care",
-          desc: "Rehabilitative and therapeutic support after illness, injury, or hospital stay—all from the comfort of home.",
+          desc: "Rehabilitative and therapeutic support after illness, injury, or hospital stay, all from the comfort of home.",
           icon: "🏡"
         },
         {
@@ -390,12 +395,12 @@ We believe our clients and their families deserve care delivered the best home-c
         },
         {
           title: "Pediatric Nursing",
-          desc: "Loving, skilled care for children under 18—our nurses are available day or night, whenever needed.",
+          desc: "Loving, skilled care for children under 18, our nurses are available day or night, whenever needed.",
           icon: "👶"
         },
         {
           title: "End-of-Life Care",
-          desc: "Hospice care that focuses on comfort, dignity, and peace—supporting both patients and families.",
+          desc: "Hospice care that focuses on comfort, dignity, and peace, supporting both patients and families.",
           icon: "🌷"
         },
         {
@@ -471,7 +476,7 @@ We believe our clients and their families deserve care delivered the best home-c
 <section id="pricing" className="py-20 bg-gradient-to-b from-white to-sky-50">
   <div className="max-w-7xl mx-auto px-6 text-center">
     <h2 className="text-3xl md:text-4xl font-extrabold text-sky-800">
-      Eldoret HomeBased Care Affordabl Packages
+      Eldoret Home-Based Nursing Care Affordable Packages
     </h2>
     <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
       Transparent rates tailored to your needs, no hidden fees, just quality care
@@ -618,7 +623,7 @@ We believe our clients and their families deserve care delivered the best home-c
       </section>
 
       {/* Footer */}
-      <footer className="bg-sky-700 text-white py-8">
+<footer className="bg-sky-700 text-white py-8">
   <div className="max-w-7xl mx-auto px-4 flex flex-col items-center space-y-3">
 
     {/* Verification / Trust */}
@@ -630,28 +635,79 @@ We believe our clients and their families deserve care delivered the best home-c
     {/* Divider before disclaimer */}
     <div className="w-full h-[1px] bg-white/50 my-2"></div>
 
-    {/* Disclaimer - Horizontal */}
-    <p className="text-xs text-center sm:text-base px-4">
-    Eldoret Home-Based Care is committed to truth in advertising, ensuring all information accurately reflects our home care services, professional licenses, service rates, and client testimonials. We pride ourselves on transparency, integrity, and delivering trusted home care across Eldoret and Uasin Gishu County.
+    {/* Disclaimer */}
+    <p className="text-xs text-center sm:text-base px-4 leading-relaxed">
+      Eldoret Home-Based Nursing Care is committed to truth in advertising, ensuring all information accurately reflects our home care services, professional licenses, service rates, and client testimonials. We pride ourselves on transparency, integrity, and delivering trusted home care across Eldoret and Uasin Gishu County.
     </p>
 
     {/* Divider after disclaimer */}
     <div className="w-full h-[1px] bg-white/50 my-2"></div>
 
-    {/* Humphries Dev Studio logo + text */}
+    {/* Humphries Dev Studio */}
     <div className="flex items-center gap-2 text-sm sm:text-base font-medium">
       <Image
         src="/images/logo.jpeg"
         alt="Humphries Dev Studio Logo"
         width={28}
         height={28}
-        className="object-contain"
+        className="object-contain rounded-full"
       />
       <span>Developed by Humphries Dev Studio</span>
     </div>
 
-    {/* Divider before copyright */}
-    <div className="w-24 h-[1px] bg-white/50 my-2"></div>
+    {/* Sleek divider before social links */}
+    <div className="w-16 h-[1px] bg-white/40 my-2"></div>
+
+    {/* Social Media Icons */}
+    <div className="flex items-center gap-3 flex-wrap justify-center text-white/80">
+      <a
+        href="https://www.facebook.com/profile.php?id=61563652291470"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        className="hover:text-white transition transform hover:scale-110"
+      >
+        <Facebook size={18} />
+      </a>
+      <a
+        href="https://www.instagram.com/dial_a_nurse_kenya?igsh=Z2gzMGFiZTZmeHI2"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        className="hover:text-white transition transform hover:scale-110"
+      >
+        <Instagram size={18} />
+      </a>
+      <a
+        href="https://www.linkedin.com/in/international-home-based-nursing-care-eldoret-5975b1389/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+        className="hover:text-white transition transform hover:scale-110"
+      >
+        <Linkedin size={18} />
+      </a>
+      <a
+        href="https://x.com/HomeCareEldoret"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="X (formerly Twitter)"
+        className="hover:text-white transition transform hover:scale-110"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 1227"
+          width={18}
+          height={18}
+          fill="currentColor"
+        >
+          <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.747 681.821L0 1226.37H105.864L515.373 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.201 687.828L521.124 619.931L144.52 80.036H306.401L602.325 505.509L650.402 573.406L1056.31 1146.33H894.428L569.201 687.828Z" />
+        </svg>
+      </a>
+    </div>
+
+    {/* Sleek divider before copyright */}
+    <div className="w-24 h-[1px] bg-white/40 my-2"></div>
 
     {/* Copyright */}
     <p className="text-xs sm:text-sm text-green-300">
@@ -659,6 +715,7 @@ We believe our clients and their families deserve care delivered the best home-c
     </p>
   </div>
 </footer>
+
 
 
 
