@@ -96,8 +96,9 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  // kept here for completeness; the <meta> tag below is what Search Console reads.
   verification: {
-    google: "your-google-site-verification-code",
+    google: "7GpvFzm_vJAJfUQaf72fx2sUFl3zamrNs9TvxunCJwA",
   },
   other: {
     "geo.region": "KE-UG",
@@ -115,6 +116,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* ✅ Google Search Console Verification */}
+        <meta
+          name="google-site-verification"
+          content="7GpvFzm_vJAJfUQaf72fx2sUFl3zamrNs9TvxunCJwA"
+        />
+
         {/* ✅ Bing Verification */}
         <meta name="msvalidate.01" content="your-bing-verification-code" />
 
@@ -126,7 +133,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "MedicalBusiness",
               name: "Dial-a-Nurse Kenya",
-              image: "https://dialanurse.co.ke/images/og-homecare.jpg",
+              image: "https://eldorethomecare.co.ke/images/og-homecare.jpg",
               "@id": "https://eldorethomecare.co.ke/",
               url: "https://eldorethomecare.co.ke/",
               telephone: "+254728762044",
@@ -168,7 +175,7 @@ export default function RootLayout({
           }}
         />
 
-        {/* ✅ Additional JSON-LD Schema for Services */}
+        {/* ✅ JSON-LD Schema for Services */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
