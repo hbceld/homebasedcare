@@ -289,6 +289,23 @@ We believe our clients and their families deserve care delivered the best home-c
                 desc: "Physiotherapy, occupational therapy, and recovery programs.",
                 img: "/images/this.jpeg",
               },
+              {
+                title: "Adolescent Mentorship & Life Skills",
+                desc: "Guiding youth (12–19) in Eldoret through decision-making, emotional balance, self-esteem, healthy relationships, and family collaboration.",
+                img: "/images/m.jpg",
+              },
+              {
+                title: "Mother & Child Care",
+                desc: "Postnatal and post-operative (C-section) nursing care for mothers in Eldoret homes, including newborn feeding support, cord care, recovery monitoring, immunization follow-up, and home-based nursing maternal health education across Uasin Gishu County.",
+                img: "/images/br.jpg",
+              },
+              {
+                title: "Hospital Admission & Patient Transition Support",
+                desc: "Professional hospital admission, discharge, and in-hospital care support in Eldoret and Uasin Gishu. Our nurses ensure smooth admission, safe discharge, and continuous bedside monitoring, providing recovery and home-based nursing follow-up.",
+                img: "/images/ad.jpg",
+              },
+              
+              
             ].map((s, i) => (
               <article
                 key={i}
@@ -473,133 +490,182 @@ We believe our clients and their families deserve care delivered the best home-c
 
       
   {/* Pricing Section */}
-<section id="pricing" className="py-20 bg-gradient-to-b from-white to-sky-50">
-  <div className="max-w-7xl mx-auto px-6 text-center">
-    <h2 className="text-3xl md:text-4xl font-extrabold text-sky-800">
-      Eldoret Home-Based Nursing Care Affordable Packages
+<section
+  id="pricing"
+  className="py-20 bg-gradient-to-b from-white via-sky-50 to-emerald-50 text-gray-800"
+>
+  <div className="max-w-6xl mx-auto px-6 text-center">
+    <h2 className="text-4xl font-bold text-sky-700 mb-10">
+      What Our Home Nursing Pricing Covers in Eldoret
     </h2>
-    <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
-      Transparent rates tailored to your needs, no hidden fees, just quality care
+
+    <p className="max-w-3xl mx-auto text-gray-600 mb-12 text-lg">
+      <strong>Dial-a-Nurse Kenya</strong> provides professional{" "}
+      <strong>home-based nursing care in Eldoret and Uasin Gishu County</strong>,
+      supporting patients, families, and seniors with trusted in-home and in-hospital nursing services.
+      Below is a breakdown of what our care packages cover, ensuring safe recovery and comfort at home or in hospitals.
     </p>
 
-    <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="space-y-10 text-left">
+      
       {/* General Nursing Care */}
-      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 to-sky-700 rounded-t-2xl"></div>
-        <h3 className="text-xl font-semibold text-sky-700 mb-5">General Nursing Care</h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex justify-between">
-            Vital signs monitoring (BP, sugar, temp, pulse) 
-            <span className="font-semibold">KES 800–1,000 / visit</span>
-          </li>
-          <li className="flex justify-between">
-            Wound dressing / Injection 
-            <span className="font-semibold">KES 1,000–1,500 / session</span>
-          </li>
-          <li className="flex justify-between">
-            IV therapy (fluids, medications) 
-            <span className="font-semibold">KES 1,500–2,500 / session</span>
-          </li>
-          <li className="flex justify-between">
-            Catheterization / Catheter care 
-            <span className="font-semibold">KES 2,000–2,500 / session</span>
-          </li>
+      <div>
+        <h3 className="text-2xl font-semibold text-sky-700 border-b-2 border-sky-200 pb-2 mb-3">
+          General Nursing Care
+        </h3>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Vital signs monitoring, blood pressure, blood sugar, temperature, and pulse checks.</li>
+          <li>Medication administration, wound dressing, injections, and IV therapy at home.</li>
+          <li>Catheterization, catheter care, and routine nursing performed by registered nurses.</li>
         </ul>
       </div>
 
+      {/* Hospital Admission, Discharge & In-Hospital Care */}
+<div className="my-12">
+  <h3 className="text-2xl font-semibold text-emerald-700 border-b border-emerald-300 pb-2 mb-8 text-center">
+    Hospital Admission & Patient Transition Support
+  </h3>
+
+  <div className="flex flex-col divide-y divide-gray-300">
+    {/* Row 1 */}
+    <div className="py-6">
+      <h4 className="text-lg font-semibold text-emerald-700 mb-2">
+        Hospital Admission Assistance
+      </h4>
+      <p className="text-gray-700 text-base leading-relaxed">
+        We help families in Eldoret and Uasin Gishu navigate smooth
+        hospital admission processes, ensuring seamless transition between
+        home-based nursing and hospital care.
+      </p>
+    </div>
+
+    {/* Row 2 */}
+    <div className="py-6">
+      <h4 className="text-lg font-semibold text-emerald-700 mb-2">
+        Patient Discharge & Transition Care
+      </h4>
+      <p className="text-gray-700 text-base leading-relaxed">
+        Our nurses coordinate safe and comfortable hospital discharge,
+        providing follow-up recovery and home nursing support across Eldoret and Uasin Gishu.
+      </p>
+    </div>
+
+    {/* Row 3 */}
+    <div className="py-6">
+      <h4 className="text-lg font-semibold text-emerald-700 mb-2">
+        In-Hospital Patient Care Support
+      </h4>
+      <p className="text-gray-700 text-base leading-relaxed">
+        For admitted patients, our qualified bedside nurses in Eldoret hospitals
+        provide continuous monitoring, companionship, and compassionate recovery support
+        to ensure comfort during hospitalization.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
       {/* Mother & Child Care */}
-      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-pink-400 to-rose-600 rounded-t-2xl"></div>
-        <h3 className="text-xl font-semibold text-pink-600 mb-5">Mother & Child Care</h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex justify-between">
-            Postnatal nursing support 
-            <span className="font-semibold">KES 2,000–3,000 / visit</span>
-          </li>
-          <li className="flex justify-between">
-            Newborn care (cord care, feeding support) 
-            <span className="font-semibold">KES 2,000–3,500 / day</span>
-          </li>
-          <li className="flex justify-between">
-            Immunization support & health education 
-            <span className="font-semibold">KES 1,000–1,500 / visit</span>
-          </li>
+      <div>
+        <h3 className="text-2xl font-semibold text-pink-600 border-b-2 border-pink-200 pb-2 mb-3">
+          Mother & Child Care
+        </h3>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Postnatal nursing and maternal health support for mothers in Eldoret homes.</li>
+          <li>Newborn feeding guidance, cord care, and developmental health monitoring.</li>
+          <li>Immunization tracking and home-based health education for mothers and infants.</li>
         </ul>
       </div>
 
       {/* Specialized Nursing Care */}
-      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-700 rounded-t-2xl"></div>
-        <h3 className="text-xl font-semibold text-indigo-700 mb-5">Specialized Nursing Care</h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex justify-between">
-            Post-surgery care (monitoring, dressing, medication) 
-            <span className="font-semibold">KES 3,500–5,000 / day</span>
-          </li>
-          <li className="flex justify-between">
-            Elderly care (mobility, feeding, hygiene) 
-            <span className="font-semibold">KES 2,500–4,000 / day</span>
-          </li>
-          <li className="flex justify-between">
-            Chronic illness management (diabetes, hypertension, cancer support) 
-            <span className="font-semibold">KES 2,000–3,500 / session or day</span>
-          </li>
-          <li className="flex justify-between">
-            Palliative care (comfort, pain management, support) 
-            <span className="font-semibold">KES 4,000–6,000 / day</span>
-          </li>
+      <div>
+        <h3 className="text-2xl font-semibold text-indigo-700 border-b-2 border-indigo-200 pb-2 mb-3">
+          Specialized Nursing Care
+        </h3>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Post-surgery recovery, wound dressing, and vital follow-ups at home.</li>
+          <li>Elderly care, mobility support, and hygiene management for seniors.</li>
+          <li>Chronic illness management for diabetes, hypertension, and cancer care in Eldoret.</li>
+          <li>Palliative and hospice nursing, offering end-of-life comfort and dignity.</li>
         </ul>
       </div>
 
       {/* Additional Services */}
-      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-teal-600 rounded-t-2xl"></div>
-        <h3 className="text-xl font-semibold text-emerald-700 mb-5">Additional Services</h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex justify-between">
-            Physiotherapy at home 
-            <span className="font-semibold">KES 2,500–4,000 / session</span>
-          </li>
-          <li className="flex justify-between">
-            Nutrition & wellness coaching 
-            <span className="font-semibold">KES 1,500–2,500 / consultation</span>
-          </li>
-          <li className="flex justify-between">
-            Health education & family training 
-            <span className="font-semibold">KES 2,000–3,000 / session</span>
-          </li>
+      <div>
+        <h3 className="text-2xl font-semibold text-emerald-700 border-b-2 border-emerald-200 pb-2 mb-3">
+          Additional Services
+        </h3>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Physiotherapy and home rehabilitation in Eldoret and Uasin Gishu County.</li>
+          <li>Nutrition guidance, wellness education, and family health training.</li>
+          <li>Patient admission, discharge coordination, and hospital bedside care.</li>
+          <li>Adolescent mentorship and health awareness for youth and parents.</li>
         </ul>
       </div>
 
       {/* Home-Based Packages */}
-      <div className="relative bg-white rounded-2xl border border-sky-100 shadow-md hover:shadow-xl transition-all p-8 text-left group">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-400 to-orange-600 rounded-t-2xl"></div>
-        <h3 className="text-xl font-semibold text-amber-600 mb-5">Home-Based Packages</h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex justify-between">
-            Day Care Nursing (8h) 
-            <span className="font-semibold">KES 4,500–6,000 / day</span>
-          </li>
-          <li className="flex justify-between">
-            Night Care Nursing (12h) 
-            <span className="font-semibold">KES 5,500–7,500 / night</span>
-          </li>
-          <li className="flex justify-between">
-            24-Hour Live-in Nursing Care 
-            <span className="font-semibold">KES 10,000–15,000 / day</span>
-          </li>
-          <li className="flex justify-between text-sm text-gray-600 italic">
-            (Often billed weekly/monthly: avg. KES 60,000–100,000 per week)
-          </li>
-          <li className="flex justify-between">
-            Weekly Health Check Package (2–3 visits: vitals, meds, wound care) 
-            <span className="font-semibold">KES 6,000–8,500 / week</span>
-          </li>
+      <div>
+        <h3 className="text-2xl font-semibold text-amber-700 border-b-2 border-amber-200 pb-2 mb-3">
+          Home-Based Packages
+        </h3>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Day and night nursing shifts for observation and continuous care.</li>
+          <li>24-hour live-in home nursing for bedridden and dependent patients.</li>
+          <li>Weekly vitals check, wound care, and medication follow-up by registered nurses.</li>
         </ul>
       </div>
+
+      {/* Adolescent Mentorship & Life Skills Program */}
+      
+<div className="pt-10 border-t border-gray-300 mt-10">
+  <h3 className="text-2xl font-semibold text-purple-700 border-b-2 border-purple-200 pb-4 mb-6 text-center md:text-left">
+    Adolescent Mentorship & Life Skills Program
+  </h3>
+
+  {/* Image + Content Row */}
+  <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+    {/* Left: Image */}
+    <div className="md:w-1/2 w-full flex justify-center">
+      <Image
+        src="/images/ca.jpeg"
+        alt="Adolescent Mentorship and Life Skills Program in Eldoret for Teens and Youth Development"
+        width={900}
+        height={500}
+        className="rounded-xl w-full max-h-72 object-contain"
+        priority
+      />
+    </div>
+
+    {/* Right: Text Content */}
+    <div className="md:w-1/2 w-full">
+  <p className="text-gray-700 leading-relaxed">
+    The Adolescent Mentorship and Life Skills Program in Eldoret empowers youth aged 12–19 to develop confidence, career path, emotional stability, and effective communication through nurse-led guidance. This youth mentorship initiative focuses on decision-making, goal-setting, and emotional wellness, promoting self-esteem, resilience, and positive behavior among adolescents. It integrates healthy lifestyle awareness, responsible relationships, and peer mentorship sessions that encourage teamwork and self-expression. Parents are actively involved to create a holistic family-based support system, ensuring that every teenager across Uasin Gishu County receives personalized life skills coaching for better emotional balance, academic focus, and personal growth.
+  </p>
+</div>
+
+
+  </div>
+</div>
+
+
+    </div>
+
+    <div className="mt-16 text-center">
+      <p className="text-sky-700 font-semibold text-lg">
+        Contact <strong>Dial-a-Nurse Kenya</strong> today for customized home care
+        or hospital nursing support, compassionate, professional, and built
+        around your family’s needs.
+      </p>
     </div>
   </div>
 </section>
+
+
+
+
+
+
 
 
 
