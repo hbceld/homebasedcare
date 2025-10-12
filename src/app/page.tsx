@@ -85,7 +85,7 @@ We believe our clients and their families deserve care delivered the best home-c
     <Instagram size={14} />
   </a>
   <a
-    href="https://www.linkedin.com/in/international-home-based-nursing-care-eldoret-5975b1389/"
+    href="https://www.linkedin.com/in/dial-a-nurse-home-based-nursing-care-eldoret-5975b1389/"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="LinkedIn"
@@ -679,7 +679,7 @@ We believe our clients and their families deserve care delivered the best home-c
         <Instagram size={18} />
       </a>
       <a
-        href="https://www.linkedin.com/in/international-home-based-nursing-care-eldoret-5975b1389/"
+        href="https://www.linkedin.com/in/dial-a-nurse-home-based-nursing-care-eldoret-5975b1389/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn"
