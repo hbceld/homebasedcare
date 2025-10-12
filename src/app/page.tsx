@@ -297,7 +297,7 @@ We believe our clients and their families deserve care delivered the best home-c
               {
                 title: "Mother & Child Care",
                 desc: "Postnatal and post-operative (C-section) nursing care for mothers in Eldoret homes, including newborn feeding support, cord care, recovery monitoring, immunization follow-up, and home-based nursing maternal health education across Uasin Gishu County.",
-                img: "/images/br.jpg",
+                img: "/images/han.png",
               },
               {
                 title: "Hospital Admission & Patient Transition Support",
