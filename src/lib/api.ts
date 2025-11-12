@@ -37,7 +37,6 @@ export async function loginAdmin(user_id: string, password: string) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id, password }),
-    credentials: "include",
   });
 
   if (!res.ok) {
