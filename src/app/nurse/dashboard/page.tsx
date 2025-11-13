@@ -36,7 +36,12 @@ interface ReportForm {
   verified_by?: string; // store string (full name) to satisfy backend
 }
 
-const API_BASE = (process.env.NEXT_PUBLIC_LOCAL_API_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
+const API_BASE = (
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_PROD_API_URL
+    : process.env.NEXT_PUBLIC_LOCAL_API_URL
+)?.replace(/\/$/, "") || "";
+
 
 // --- Local storage helpers (persist reports per-user) ---
 const storageKeyForUser = (userId: number) => `nurse_reports_${userId}`;
