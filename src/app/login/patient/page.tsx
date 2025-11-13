@@ -4,8 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // ✅ Corrected endpoint
+const API_BASE =
+  process.env.NEXT_PUBLIC_PROD_API_URL?.replace(/\/+$/, "") ||
+  "https://homebasedcarebackend.onrender.com/api";
+
 async function patientLogin({ user_id, password }: { user_id: string; password: string }) {
-  const res = await fetch("http://localhost:8000/api/patients/login/", {
+  const res = await fetch(`${API_BASE}/patients/login/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id, password }),
@@ -18,6 +22,7 @@ async function patientLogin({ user_id, password }: { user_id: string; password: 
 
   return res.json();
 }
+
 
 export default function PatientLoginPage() {
   const router = useRouter();
