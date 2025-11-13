@@ -45,7 +45,8 @@ interface NurseReport {
   [k: string]: any;
 }
 
-const API_BASE = (process.env.NEXT_PUBLIC_LOCAL_API_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
+const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+
 
 /** fetch patient record by user id */
 async function getPatientData(userId: number) {
