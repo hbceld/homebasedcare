@@ -293,12 +293,13 @@ export async function updateInvoiceStatus(id: string, status: string) {
 
 
 export async function markBillingPaid(id: string) {
-  const res = await fetch(`http://localhost:8000/api/billings/${id}/mark_paid/`, {
+  const res = await authFetch(`${API_BASE}/billings/${id}/mark_paid/`, {
     method: "POST",
   });
   if (!res.ok) throw new Error("Failed to mark billing as paid");
   return res.json();
 }
+
 
 // --- REPORTS ---
 export async function fetchReports() {
