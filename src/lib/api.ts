@@ -370,6 +370,27 @@ export async function nurseLogin(data: { user_id: string; password: string }) {
   return res.json();
 }
 
+
+// Fetch patients assigned to a specific nurse
+// lib/api.ts
+// lib/api.ts
+
+export async function getNursePatients(nurseId: number) {
+  const res = await fetch(`${API_BASE}/nurses/${nurseId}/patients/`, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || "Failed to fetch assigned patients");
+  }
+
+  return res.json();
+}
+
+
+
+
 export async function patientLogin({ user_id, password }: { user_id: string; password: string }) {
   const res = await fetch(`${API_BASE}/patients/login/`, {
     method: "POST",
@@ -384,15 +405,6 @@ export async function patientLogin({ user_id, password }: { user_id: string; pas
 
   return res.json();
 }
-
-
-
-
-
-
-
-
-
 
 
 
