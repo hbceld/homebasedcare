@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
+
 type AssignedNurseShape = { id: number; full_name?: string | null; _needsFetch?: boolean };
 
 interface Patient {
@@ -45,7 +46,21 @@ interface NurseReport {
   [k: string]: any;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+// Detect if running in the browser
+const isBrowser = typeof window !== "undefined";
+
+// Determine if we're in local development
+const isLocal =
+  isBrowser &&
+  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+// Base API URL
+const API_BASE =
+  (isLocal
+    ? process.env.NEXT_PUBLIC_LOCAL_API_URL
+    : process.env.NEXT_PUBLIC_PROD_API_URL
+  )?.replace(/\/+$/, "") || "https://homebasedcarebackend.onrender.com/api";
+
 
 
 /** fetch patient record by user id */
