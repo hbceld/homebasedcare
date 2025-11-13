@@ -32,32 +32,47 @@ function clearTokens() {
 }
 
 // --- LOGIN ---
+// --- LOGIN ---
 export async function loginAdmin(user_id: string, password: string) {
-  const res = await fetch(`${API_BASE}/auth/login/admin/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_id, password }),
-  });
+  try {
+    const req = new Request(`${API_BASE}/auth/login/admin/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id, password }),
+    });
 
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data?.detail || "Admin login failed");
+    const res = await fetch(req).catch(() => {
+      // silently ignore fetch-level errors (like network)
+      throw new Error("STOP! YOU ARE UNKNOWN");
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data?.detail || "STOP! YOU ARE UNKNOWN");
+    }
+
+    const data = await res.json();
+
+    // ✅ Read nested tokens from backend
+    const access = data.tokens?.access;
+    const refresh = data.tokens?.refresh;
+
+    if (access && refresh) {
+      setTokens(access, refresh); // store in sessionStorage
+    } else {
+      throw new Error("Login succeeded but tokens are missing");
+    }
+
+    return data;
+  } catch (err) {
+    // prevent browser console red text for handled errors
+    if (process.env.NODE_ENV === "development") {
+      console.debug("Login error handled silently:", err);
+    }
+    throw err;
   }
-
-  const data = await res.json();
-
-  // ✅ Read nested tokens from backend
-  const access = data.tokens?.access;
-  const refresh = data.tokens?.refresh;
-
-  if (access && refresh) {
-    setTokens(access, refresh); // store in sessionStorage
-  } else {
-    throw new Error("Login succeeded but tokens are missing");
-  }
-
-  return data;
 }
+
 
 
 // --- REFRESH TOKEN ---
