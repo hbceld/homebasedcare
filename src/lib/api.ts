@@ -353,14 +353,10 @@ export async function deleteReport(id: string) {
   return true;
 }
 
-// lib/api.ts
-const baseUrl =
-  process.env.NEXT_PUBLIC_LOCAL_API_URL ||
-  process.env.NEXT_PUBLIC_PROD_API_URL ||
-  "http://127.0.0.1:8000/api"; // fallback
+
 
 export async function nurseLogin(data: { user_id: string; password: string }) {
-  const res = await fetch(`${baseUrl}/nurses/login/`, {
+  const res = await fetch(`${API_BASE}/nurses/login/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -374,31 +370,8 @@ export async function nurseLogin(data: { user_id: string; password: string }) {
   return res.json();
 }
 
-
-// Fetch patients assigned to a specific nurse
-// lib/api.ts
-// lib/api.ts
-
-export async function getNursePatients(nurseId: number) {
-  const API_BASE = process.env.NEXT_PUBLIC_LOCAL_API_URL || "http://127.0.0.1:8000/api"; // <-- only one /api
-
-  const res = await fetch(`${API_BASE}/nurses/${nurseId}/patients/`, {
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.detail || "Failed to fetch assigned patients");
-  }
-
-  return res.json();
-}
-
-
-
-
 export async function patientLogin({ user_id, password }: { user_id: string; password: string }) {
-  const res = await fetch("http://localhost:8000/api/patients/login/", {  // ✅ corrected
+  const res = await fetch(`${API_BASE}/patients/login/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id, password }),
@@ -411,6 +384,15 @@ export async function patientLogin({ user_id, password }: { user_id: string; pas
 
   return res.json();
 }
+
+
+
+
+
+
+
+
+
 
 
 
