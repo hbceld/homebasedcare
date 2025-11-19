@@ -1,4 +1,6 @@
+/*
 // src/app/page.tsx
+
 "use client";
 import Image from "next/image";
 import { motion, AnimatePresence} from "framer-motion";
@@ -47,10 +49,10 @@ We believe our clients and their families deserve care delivered the best home-c
   };
   return (
     <main className="flex flex-col min-h-screen bg-white text-gray-800">
-      {/* Top info (small) */}
+      
       <div className="bg-sky-700 text-white text-[12px]">
         <div className="max-w-7xl mx-auto px-2 py-1 flex flex-wrap items-center justify-between gap-2">
-          {/* left info (wraps on tiny screens) */}
+          
           <div className="flex flex-wrap items-center gap-2 text-center sm:text-left">
             <span className="flex items-center gap-1">
               <MapPin size={14} /> Eldoret, Uasin Gishu County
@@ -63,7 +65,7 @@ We believe our clients and their families deserve care delivered the best home-c
             </span>
           </div>
 
-          {/* socials (stay in one line, wrap below if needed) */}
+          
      
 <div className="flex items-center gap-2 flex-wrap justify-center">
   <a
@@ -118,13 +120,12 @@ We believe our clients and their families deserve care delivered the best home-c
         </div>
       </div>
 
-      {/* Compact Navbar */}
+      
       <header className="bg-white shadow sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-2">
-          {/* Top row: logo + actions/logins (wrap on very small screens) */}
+          
           <div className="flex flex-wrap items-center justify-between py-1 gap-2">
-            {/* Logo */}
-            {/* Logo */}
+            
 <div className="flex-shrink-0 h-8 flex items-center gap-2 text-sm sm:text-lg font-bold text-sky-700 whitespace-nowrap">
   <Image
     src="/images/land.png"
@@ -138,7 +139,7 @@ We believe our clients and their families deserve care delivered the best home-c
 </div>
 
 
-            {/* Right side (links + logins) */}
+            
             <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm justify-end">
               <Link
                 href="#appointment"
@@ -153,7 +154,7 @@ We believe our clients and their families deserve care delivered the best home-c
                 Explore Services
               </Link>
 
-              {/* logins */}
+              
               <div className="flex items-center gap-1 text-[11px] text-gray-600 whitespace-nowrap">
                 <Link href="/login/nurse" className="hover:text-sky-600 text">
                   Nurse Login
@@ -171,7 +172,7 @@ We believe our clients and their families deserve care delivered the best home-c
             </div>
           </div>
 
-          {/* Bottom row: main nav, scrolls if too tight */}
+          
           <div className="border-t border-gray-100">
             <nav className="w-full overflow-x-auto whitespace-nowrap py-1">
               <div className="inline-flex items-center gap-2 px-2 text-xs sm:text-sm">
@@ -188,7 +189,7 @@ We believe our clients and their families deserve care delivered the best home-c
         </div>
       </header>
 
-      {/* Hero - text placed at bottom so it doesn't cover faces */}
+      
       <section className="relative h-[70vh] md:h-[85vh] flex items-end overflow-hidden">
         <Image
           src="/images/kwanza.jpeg"
@@ -198,10 +199,10 @@ We believe our clients and their families deserve care delivered the best home-c
           className="object-cover object-top sm:object-center"
         />
 
-        {/* subtle gradient to help text legibility but not over-darken image */}
+        
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent pointer-events-none" />
 
-        {/* content sits near bottom so image subject remains visible */}
+        
         <div className="relative z-10 w-full">
           <div className="max-w-4xl mx-auto px-4 pb-8 sm:pb-14">
             <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-center sm:text-left">
@@ -213,7 +214,7 @@ We believe our clients and their families deserve care delivered the best home-c
               home in Eldoret town and surrounding areas.
             </p>
 
-            {/* Underlined text links (no buttons) placed below headline */}
+            
             <div className="mt-4 flex flex-col sm:flex-row gap-4 items-center sm:items-start">
               <Link
                 href="#appointment"
@@ -232,10 +233,10 @@ We believe our clients and their families deserve care delivered the best home-c
         </div>
       </section>
 
-      {/* About (brief, optional) */}
+      
       <section id="about" className="py-12 md:py-16">
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between gap-4 overflow-hidden">
-  {/* Image Section */}
+  
   <div className="w-1/2 flex justify-center">
     <img
       src="/images/vvv.png"
@@ -244,7 +245,7 @@ We believe our clients and their families deserve care delivered the best home-c
     />
   </div>
 
-  {/* Text Section */}
+  
   <div className="w-1/2 text-left">
     <h2 className="text-2xl md:text-3xl font-bold text-sky-700">
       Who we are
@@ -262,7 +263,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
       </section>
 
-      {/* Services */}
+      
       <section id="services" className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-sky-700 text-center">
@@ -329,7 +330,7 @@ We believe our clients and their families deserve care delivered the best home-c
               </article>
             ))}
           </div>
-          {/* How It Works - Sleek Steps */}
+          
 <div className="mt-16">
   <h3 className="text-xl md:text-2xl font-bold text-sky-700 text-center">
     How Eldoret Home-Based Nursing Care Works
@@ -364,7 +365,7 @@ We believe our clients and their families deserve care delivered the best home-c
       },
     ].map((item, i) => (
       <div key={i} className="relative">
-        {/* Step Circle */}
+        
         <div className="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-sky-700 text-white font-bold text-lg shadow-md">
           {item.step}
         </div>
@@ -379,7 +380,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
         </div>
       </section>
-      {/* Why Us */}
+      
 
 <section id="why" className="py-16 bg-gradient-to-b from-sky-50 to-white">
   <div className="max-w-7xl mx-auto px-6 text-center">
@@ -441,9 +442,9 @@ We believe our clients and their families deserve care delivered the best home-c
         </motion.div>
       ))}
     </div>
-     {/* Mission, Values & Philosophy - Clean Horizontal Tabs */}
+     
 <div className="mt-16 max-w-5xl mx-auto">
-  {/* Horizontal tab buttons */}
+  
   <div className="flex justify-center gap-10 border-b border-gray-200">
     {(["mission", "values", "philosophy"] as const).map((key) => (
       <button
@@ -461,7 +462,7 @@ We believe our clients and their families deserve care delivered the best home-c
     ))}
   </div>
 
-  {/* Active content */}
+  
   <div className="mt-6 text-center">
     <AnimatePresence mode="wait">
       <motion.div
@@ -489,7 +490,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
 
       
-  {/* Pricing Section */}
+  
 <section
   id="pricing"
   className="py-20 bg-gradient-to-b from-white via-sky-50 to-emerald-50 text-gray-800"
@@ -508,7 +509,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
     <div className="space-y-10 text-left">
       
-      {/* General Nursing Care */}
+      
       <div>
         <h3 className="text-2xl font-semibold text-sky-700 border-b-2 border-sky-200 pb-2 mb-3">
           General Nursing Care
@@ -520,14 +521,14 @@ We believe our clients and their families deserve care delivered the best home-c
         </ul>
       </div>
 
-      {/* Hospital Admission, Discharge & In-Hospital Care */}
+      
 <div className="my-12">
   <h3 className="text-2xl font-semibold text-emerald-700 border-b border-emerald-300 pb-2 mb-8 text-center">
     Hospital Admission & Patient Transition Support
   </h3>
 
   <div className="flex flex-col divide-y divide-gray-300">
-    {/* Row 1 */}
+    
     <div className="py-6">
       <h4 className="text-lg font-semibold text-emerald-700 mb-2">
         Hospital Admission Assistance
@@ -539,7 +540,7 @@ We believe our clients and their families deserve care delivered the best home-c
       </p>
     </div>
 
-    {/* Row 2 */}
+    
     <div className="py-6">
       <h4 className="text-lg font-semibold text-emerald-700 mb-2">
         Patient Discharge & Transition Care
@@ -550,7 +551,7 @@ We believe our clients and their families deserve care delivered the best home-c
       </p>
     </div>
 
-    {/* Row 3 */}
+    
     <div className="py-6">
       <h4 className="text-lg font-semibold text-emerald-700 mb-2">
         In-Hospital Patient Care Support
@@ -566,7 +567,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
 
 
-      {/* Mother & Child Care */}
+      
       <div>
         <h3 className="text-2xl font-semibold text-pink-600 border-b-2 border-pink-200 pb-2 mb-3">
           Mother & Child Care
@@ -578,7 +579,7 @@ We believe our clients and their families deserve care delivered the best home-c
         </ul>
       </div>
 
-      {/* Specialized Nursing Care */}
+      
       <div>
         <h3 className="text-2xl font-semibold text-indigo-700 border-b-2 border-indigo-200 pb-2 mb-3">
           Specialized Nursing Care
@@ -591,7 +592,7 @@ We believe our clients and their families deserve care delivered the best home-c
         </ul>
       </div>
 
-      {/* Additional Services */}
+      
       <div>
         <h3 className="text-2xl font-semibold text-emerald-700 border-b-2 border-emerald-200 pb-2 mb-3">
           Additional Services
@@ -604,7 +605,7 @@ We believe our clients and their families deserve care delivered the best home-c
         </ul>
       </div>
 
-      {/* Home-Based Packages */}
+      
       <div>
         <h3 className="text-2xl font-semibold text-amber-700 border-b-2 border-amber-200 pb-2 mb-3">
           Home-Based Packages
@@ -616,16 +617,16 @@ We believe our clients and their families deserve care delivered the best home-c
         </ul>
       </div>
 
-      {/* Adolescent Mentorship & Life Skills Program */}
+      
       
 <div className="pt-10 border-t border-gray-300 mt-10">
   <h3 className="text-2xl font-semibold text-purple-700 border-b-2 border-purple-200 pb-4 mb-6 text-center md:text-left">
     Adolescent Mentorship & Life Skills Program
   </h3>
 
-  {/* Image + Content Row */}
+  
   <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-    {/* Left: Image */}
+    
     <div className="md:w-1/2 w-full flex justify-center">
       <Image
         src="/images/ca.jpeg"
@@ -637,7 +638,7 @@ We believe our clients and their families deserve care delivered the best home-c
       />
     </div>
 
-    {/* Right: Text Content */}
+    
     <div className="md:w-1/2 w-full">
   <p className="text-gray-700 leading-relaxed">
     The Adolescent Mentorship and Life Skills Program in Eldoret empowers youth aged 12–19 to develop confidence, career path, emotional stability, and effective communication through nurse-led guidance. This youth mentorship initiative focuses on decision-making, goal-setting, and emotional wellness, promoting self-esteem, resilience, and positive behavior among adolescents. It integrates healthy lifestyle awareness, responsible relationships, and peer mentorship sessions that encourage teamwork and self-expression. Parents are actively involved to create a holistic family-based support system, ensuring that every teenager across Uasin Gishu County receives personalized life skills coaching for better emotional balance, academic focus, and personal growth.
@@ -670,7 +671,7 @@ We believe our clients and their families deserve care delivered the best home-c
 
 
 
-      {/* Appointment / Contact */}
+      
       <section id="appointment" className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-sky-700">
@@ -688,28 +689,28 @@ We believe our clients and their families deserve care delivered the best home-c
         </div>
       </section>
 
-      {/* Footer */}
+      
 <footer className="bg-sky-700 text-white py-8">
   <div className="max-w-7xl mx-auto px-4 flex flex-col items-center space-y-3">
 
-    {/* Verification / Trust */}
+    
     <div className="flex items-center gap-2 text-sm sm:text-base font-medium">
       <MdVerifiedUser className="text-yellow-400 text-2xl sm:text-3xl animate-pulse" />
       <span>All our staff are licensed by the NCK</span>
     </div>
 
-    {/* Divider before disclaimer */}
+    
     <div className="w-full h-[1px] bg-white/50 my-2"></div>
 
-    {/* Disclaimer */}
+    
     <p className="text-xs text-center sm:text-base px-4 leading-relaxed">
       Eldoret Home-Based Nursing Care is committed to truth in advertising, ensuring all information accurately reflects our home care services, professional licenses, service rates, and client testimonials. We pride ourselves on transparency, integrity, and delivering trusted home care across Eldoret and Uasin Gishu County.
     </p>
 
-    {/* Divider after disclaimer */}
+    
     <div className="w-full h-[1px] bg-white/50 my-2"></div>
 
-    {/* Humphries Dev Studio */}
+    
     <div className="flex items-center gap-2 text-sm sm:text-base font-medium">
       <Image
         src="/images/logo.jpeg"
@@ -721,10 +722,10 @@ We believe our clients and their families deserve care delivered the best home-c
       <span>Developed by Humphries Dev Studio</span>
     </div>
 
-    {/* Sleek divider before social links */}
+    
     <div className="w-16 h-[1px] bg-white/40 my-2"></div>
 
-    {/* Social Media Icons */}
+    
     <div className="flex items-center gap-3 flex-wrap justify-center text-white/80">
       <a
         href="https://www.facebook.com/profile.php?id=61563652291470"
@@ -772,10 +773,10 @@ We believe our clients and their families deserve care delivered the best home-c
       </a>
     </div>
 
-    {/* Sleek divider before copyright */}
+    
     <div className="w-24 h-[1px] bg-white/40 my-2"></div>
 
-    {/* Copyright */}
+    
     <p className="text-xs sm:text-sm text-green-300">
       © {new Date().getFullYear()} Dial-a-Nurse Kenya. All rights reserved.
     </p>
@@ -788,6 +789,20 @@ We believe our clients and their families deserve care delivered the best home-c
     </main>
   );
 }
+  */
+
+export default function HomePage() {
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-white">
+      <img 
+        src="/images/pay.png" 
+        alt="Payment Required" 
+        className="w-[600px] h-auto"
+      />
+    </main>
+  );
+}
+
 
 
 
