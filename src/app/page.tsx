@@ -794,11 +794,7 @@ We believe our clients and their families deserve care delivered the best home-c
 export default function HomePage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-white">
-      <img 
-        src="/images/pesa.png" 
-        alt="Payment Required" 
-        className="w-[600px] h-auto"
-      />
+      
     </main>
   );
 }
