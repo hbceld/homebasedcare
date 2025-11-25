@@ -1,3 +1,4 @@
+/*
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
@@ -116,19 +117,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ✅ Google Search Console Verification */}
+        {}
         <meta
           name="google-site-verification"
           content="7GpvFzm_vJAJfUQaf72fx2sUFl3zamrNs9TvxunCJwA"
         />
 
-        {/* ✅ Bing Verification */}
+        {}
         <meta name="msvalidate.01" content="your-bing-verification-code" />
 
-        {/* ✅ JSON-LD Schema for Local Business */}
+        {}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
+          dangerouslySetInnerHTML={{/*
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "MedicalBusiness",
@@ -175,7 +176,7 @@ export default function RootLayout({
           }}
         />
 
-        {/* ✅ JSON-LD Schema for Services */}
+        {}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -222,6 +223,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-
-
+}*/
